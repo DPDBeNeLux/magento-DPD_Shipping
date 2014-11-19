@@ -191,8 +191,6 @@ class DPD_Shipping_Model_Mysql4_Dpdclassic_Tablerate extends Mage_Core_Model_Res
         } else {
             $conditionName = $object->getData('groups/dpdclassic/fields/condition_name/value');
         }
-        Mage::log((string)Mage::getConfig()->getNode('default/carriers/dpdclassic/condition_name'));
-        Mage::log($object->getData('groups/dpdclassic/fields/condition_name/value'));
         $this->_importConditionName = $conditionName;
         $adapter = $this->_getWriteAdapter();
         $adapter->beginTransaction();
@@ -237,7 +235,7 @@ class DPD_Shipping_Model_Mysql4_Dpdclassic_Tablerate extends Mage_Core_Model_Res
         } catch (Exception $e) {
             $adapter->rollback();
             $io->streamClose();
-            Mage::logException($e);
+            Mage::helper('dpd')->log($e,Zend_Log::ERR);
             Mage::throwException(Mage::helper('dpd')->__('An error occurred while importing table rates.'));
         }
 

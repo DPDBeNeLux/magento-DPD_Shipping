@@ -237,7 +237,7 @@ class DPD_Shipping_Model_Mysql4_Dpdparcelshops_Tablerate extends Mage_Core_Model
         } catch (Exception $e) {
             $adapter->rollback();
             $io->streamClose();
-            Mage::logException($e);
+            Mage::helper('dpd')->log($e,Zend_Log::ERR);
             Mage::throwException(Mage::helper('dpd')->__('An error occurred while importing table rates.'));
         }
 

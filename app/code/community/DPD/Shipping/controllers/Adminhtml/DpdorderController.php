@@ -112,7 +112,7 @@ class DPD_Shipping_Adminhtml_DpdorderController extends Mage_Adminhtml_Controlle
     {
         ini_set('max_execution_time', 120);
         $orderIds = $this->getRequest()->getParam('entity_id');
-        $maxOrderCount = 10;
+        $maxOrderCount = 100;
         if(count($orderIds) > $maxOrderCount){
             $message = Mage::helper('dpd')->__("The maximum number of orders to process is %s. You selected %s. Please deselect some orders and try again.",$maxOrderCount, count($orderIds));
             Mage::getSingleton('core/session')->addError($message);
