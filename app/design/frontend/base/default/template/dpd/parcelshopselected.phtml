@@ -1,0 +1,63 @@
+<?php
+/**
+ * Created by PHPro
+ *
+ * @package      DPD
+ * @subpackage   Shipping
+ * @category     Checkout
+ * @author       PHPro (info@phpro.be)
+ */
+/**
+ * Shows selected parcelshop.
+ */
+?>
+<?php
+$quote = $this->getQuote();
+$dpdExtraInfo = $quote->getDpdExtraInfo();
+$dpdExtraInfoDecoded = json_decode($dpdExtraInfo);
+$this->getShopsHtml();
+?>
+<div id="parcelshop" class="parcelshopwrapper">
+    <ul>
+        <img class="left parcelshoplogo"
+             src="<?php echo Mage::getDesign()->getSkinUrl('images/dpd/dpd_parcelshop_logo.png') ?>"
+             alt="extrainfo"/>
+        <li class="dpdinfo"><?php echo $quote->getDpdCompany() ?> <img class="extrainfo"
+                                                                       src="<?php echo Mage::getDesign()->getSkinUrl('images/dpd/icon_info.gif') ?>"
+                                                                       alt="extrainfo"/>
+
+            <div class="extrainfowrapper" style="display:none;">
+                <ul>
+                    <?php if ($extraInfoArray = get_object_vars($dpdExtraInfoDecoded)): ?>
+                        <?php foreach ($extraInfoArray as $key => $dpdExtraInfo): ?>
+                            <li class="extrainfocontent left">
+                                <div class="title"><?php echo $key ?></div>
+                                <?php if ($key == "Opening hours"): ?>
+                                    <div class="timetable">
+                                    <?php echo $this->getOpeningHoursHtml($dpdExtraInfo) ?>
+                                        <div class="dpdclear"></div>
+                                    </div>
+                                <?php else: ?>
+                                    <div class="std"><?php echo $dpdExtraInfo ?></div>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach ?>
+                    <?php endif; ?>
+                </ul>
+                <div class="dpdclear"></div>
+            </div>
+        </li>
+        <li><?php echo $quote->getDpdStreet() ?></li>
+        <li><?php echo $quote->getDpdZipcode() . " " . $quote->getDpdCity() ?></li>
+        <li><?php echo Mage::app()->getLocale()->getCountryTranslation($quote->getDpdCountry()); ?></li>
+    </ul>
+
+    <a href="#"
+       class="invalidateParcel"><?php echo Mage::helper('dpd')->__('Click here to change your ParcelShop') ?></a>
+    <input type="hidden" class="DPD-confirmed" value="1"/>
+    <input type="hidden" class="parcelshopId" value="<?php echo $quote->getDpdParcelshopId() ?>" />
+    <script type="text/javascript">
+        window.dpdconfig = <?php echo $this->getConfig() ?>;
+        window.dpdShipping = new DPD.Shipping('checkout-shipping-method-load', window.dpdconfig);
+    </script>
+</div>

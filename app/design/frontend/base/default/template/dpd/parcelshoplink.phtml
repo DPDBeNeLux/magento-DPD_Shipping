@@ -1,0 +1,28 @@
+<?php
+/**
+ * Created by PHPro
+ *
+ * @package      DPD
+ * @subpackage   Shipping
+ * @category     Checkout
+ * @author       PHPro (info@phpro.be)
+ */
+/*
+ * Link to open the parcelshop selection.
+ */
+?>
+<div id="parcelshop" class="parcelshopwrapper">
+    <a href="#" id="showparcels"><?php echo Mage::helper('dpd')->__('Click here to select your ParcelShop') ?></a>
+    <script type="text/javascript">
+        var dpdconfig = <?php echo $this->getConfig() ?>;
+        var dpdShipping = new DPD.Shipping('checkout-shipping-method-load', dpdconfig);
+    </script>
+    <input type="hidden" class="DPD-confirmed" value="0"/>
+</div>
+<script>
+    Validation.add('DPD-confirmed', '<?php echo __('Please select a Parcelshop'); ?>', function (the_field_value, element) {
+        DPDChecked = $('s_method_dpdparcelshops_dpdparcelshops').checked;
+        return !(DPDChecked && element.value == 0);
+
+    });
+</script>

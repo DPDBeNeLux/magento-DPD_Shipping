@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<layout>
+    <dpd_checkout_header>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/dpd/shipping.css</stylesheet>
+            </action>
+            <action method="addJs">
+                <script>dpd/shipping.js</script>
+            </action>
+            <action method="addJs">
+                <script>prototype/window.js</script>
+            </action>
+            <action method="addJs">
+                <script>dpd/window/shipping.js</script>
+            </action>
+            <action method="addCss">
+                <name>css/dpd/window.css</name>
+            </action>
+            <block type="core/template" name="gmapsapi" template="dpd/gmapsapi.phtml"/>
+        </reference>
+    </dpd_checkout_header>
+    <checkout_onepage_index>
+        <update handle="dpd_checkout_header"/>
+    </checkout_onepage_index>
+    <dpd_ajax_windowindex>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/empty.phtml</template>
+            </action>
+        </reference>
+        <update handle="dpd_checkout_header"/>
+        <reference name="content">
+            <block type="dpd/carrier_parcelshop" name="dpd" template="dpd/parcelshop.phtml"/>
+        </reference>
+    </dpd_ajax_windowindex>
+    <dpd_ajax_index>
+        <block type="dpd/carrier_parcelshop" name="root" template="dpd/parcelshop.phtml" output="toHtml"/>
+    </dpd_ajax_index>
+    <dpd_ajax_saveparcel>
+        <block type="dpd/carrier_parcelshop" name="root" template="dpd/parcelshopselected.phtml" output="toHtml"/>
+    </dpd_ajax_saveparcel>
+    <dpd_ajax_invalidateparcel>
+        <block type="dpd/carrier_parcelshop" name="root" template="dpd/parcelshop.phtml" output="toHtml"/>
+    </dpd_ajax_invalidateparcel>
+    <shipping_tracking_ajax>
+        <reference name="content">
+            <block type="shipping/tracking_ajax" name="ordertracking" template="dpd/ordertracking.phtml" before="-"/>
+        </reference>
+    </shipping_tracking_ajax>
+    <shipping_tracking_popup>
+        <reference name="content">
+            <block type="shipping/tracking_popup" name="ordertracking" template="dpd/ordertracking.phtml" before="-"/>
+        </reference>
+    </shipping_tracking_popup>
+</layout>

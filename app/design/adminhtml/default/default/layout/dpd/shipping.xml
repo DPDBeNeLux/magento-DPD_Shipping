@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_sales_order_view>
+        <reference name="sales_order_tabs">
+            <action method="addTab">
+                <name>order_view_tab_dpdreturnlabeltab</name>
+                <block>dpd/adminhtml_sales_order_view_tab_returnlabels</block>
+            </action>
+        </reference>
+    </adminhtml_sales_order_view>
+</layout>

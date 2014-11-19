@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <sections>
+        <shipping>
+            <groups>
+                <dpdclassic translate="label" module="dpd">
+                    <label>DPD Shipping</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <userid translate="label">
+                            <label>User Id</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Please contact DPD for your User ID</comment>
+                        </userid>
+                        <password translate="label">
+                            <label>Password</label>
+                            <frontend_type>obscure</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Please contact DPD for your password</comment>
+                        </password>
+                        <webserviceurl translate="label">
+                            <label>Webservice URL</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Do NOT change unless instructed by DPD</comment>
+                        </webserviceurl>
+                        <sender_name translate="label">
+                            <label>Sender name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Do NOT change unless instructed by DPD</comment>
+                        </sender_name>
+                        <sender_street translate="label">
+                            <label>Sender street</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>17</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Do NOT change unless instructed by DPD</comment>
+                        </sender_street>
+                        <sender_streetnumber translate="label">
+                            <label>Sender streetnumber</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>18</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Do NOT change unless instructed by DPD</comment>
+                        </sender_streetnumber>
+                        <sender_country translate="label">
+                            <label>Sender country</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>19</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Do NOT change unless instructed by DPD</comment>
+                        </sender_country>
+                        <sender_zipcode translate="label">
+                            <label>Sender zipcode</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Do NOT change unless instructed by DPD</comment>
+                        </sender_zipcode>
+                        <sender_city translate="label">
+                            <label>Sender city</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Do NOT change unless instructed by DPD</comment>
+                        </sender_city>
+                        <paperformat translate="label">
+                            <label>Paperformat</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>dpd/system_config_source_paperformat</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Select in which format the labels should be generated for printing</comment>
+                        </paperformat>
+                        <weight_unit>
+                            <label>Weight unit</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>dpd/system_config_source_weightunit</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Choose the unit of the weight attribute of products</comment>
+                        </weight_unit>
+                    </fields>
+                </dpdclassic>
+            </groups>
+        </shipping>
+        <carriers>
+            <groups>
+                <dpdclassic translate="label" module="dpd">
+                    <label>DPD Home Delivery</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <name translate="label">
+                            <label>Shipping method name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The name of the shipping method</comment>
+                        </name>
+                        <sort_order translate="label">
+                            <label>Sort order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The order in which the shipping method should appear</comment>
+                        </sort_order>
+                        <default translate="label">
+                            <label>Default selected</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Automatically selects this shipping method during checkout by default</comment>
+                        </default>
+                        <ratetype translate="label">
+                            <label>Rate type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>dpd/system_config_source_ratetypes</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>You can use flat rate or calculated table rates</comment>
+                        </ratetype>
+                        <flatrateprice translate="label">
+                            <label>Flat rate price</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>6</sort_order>
+                            <depends>
+                                <ratetype>0</ratetype>
+                            </depends>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Fixed fee for DPD shipments</comment>
+                        </flatrateprice>
+                        <condition_name translate="label">
+                            <label>Table rates condition</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_shipping_tablerate</source_model>
+                            <sort_order>7</sort_order>
+                            <depends>
+                                <ratetype>1</ratetype>
+                            </depends>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </condition_name>
+                        <export translate="label">
+                            <label>Export table rates file</label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>dpd/adminhtml_system_config_form_dpdclassicexport</frontend_model>
+                            <sort_order>8</sort_order>
+                            <depends>
+                                <ratetype>1</ratetype>
+                            </depends>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Export your table rates configuration here</comment>
+                        </export>
+                        <import_classic translate="label">
+                            <label>Import table rates file</label>
+                            <frontend_type>import</frontend_type>
+                            <sort_order>9</sort_order>
+                            <backend_model>dpd/adminhtml_system_config_backend_shipping_dpdclassic_tablerate</backend_model>
+                            <depends>
+                                <ratetype>1</ratetype>
+                            </depends>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Upload your table rates configuration here. Refer to the manual for more information</comment>
+                        </import_classic>
+                        <sallowspecific translate="label">
+                            <label>Ship to countries</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>13</sort_order>
+                            <frontend_class>shipping-applicable-country</frontend_class>
+                            <source_model>adminhtml/system_config_source_shipping_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Make DPD available in all countries or in specific</comment>
+                        </sallowspecific>
+                        <specificcountry translate="label">
+                            <label>Allowed countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>14</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <can_be_empty>0</can_be_empty>
+                            <comment>Select one or more countries where dpd should be available for</comment>
+                        </specificcountry>
+                    </fields>
+                </dpdclassic>
+                <dpdparcelshops translate="label" module="dpd">
+                    <label>DPD Parcelshops</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>11</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <name translate="label">
+                            <label>Shipping method name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The name of the shipping method</comment>
+                        </name>
+                        <sort_order translate="label">
+                            <label>Sort order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The order in which the shipping method should appear</comment>
+                        </sort_order>
+                        <default translate="label">
+                            <label>Default selected</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Automatically selects this shipping method during checkout by default</comment>
+                        </default>
+                        <ratetype translate="label">
+                            <label>Rate type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>dpd/system_config_source_ratetypes</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>You can use flat rate or calculated table rates</comment>
+                        </ratetype>
+                        <flatrateprice translate="label">
+                            <label>Flat rate price</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>6</sort_order>
+                            <depends>
+                                <ratetype>0</ratetype>
+                            </depends>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Fixed fee for DPD shipments</comment>
+                        </flatrateprice>
+                        <condition_name translate="label">
+                            <label>Table rates condition</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_shipping_tablerate</source_model>
+                            <sort_order>7</sort_order>
+                            <depends>
+                                <ratetype>1</ratetype>
+                            </depends>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </condition_name>
+                        <export translate="label">
+                            <label>Export table rates file</label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>dpd/adminhtml_system_config_form_dpdparcelshopsexport</frontend_model>
+                            <sort_order>8</sort_order>
+                            <depends>
+                                <ratetype>1</ratetype>
+                            </depends>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Export your table rates configuration here</comment>
+                        </export>
+                        <import_parcelshops translate="label">
+                            <label>Import table rates file</label>
+                            <frontend_type>import</frontend_type>
+                            <sort_order>9</sort_order>
+                            <backend_model>dpd/adminhtml_system_config_backend_shipping_dpdparcelshops_tablerate</backend_model>
+                            <depends>
+                                <ratetype>1</ratetype>
+                            </depends>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Upload your table rates configuration here. Refer to the manual for more information</comment>
+                        </import_parcelshops>
+                        <sallowspecific translate="label">
+                            <label>Ship to countries</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>10</sort_order>
+                            <frontend_class>shipping-applicable-country</frontend_class>
+                            <source_model>adminhtml/system_config_source_shipping_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Make DPD available in all countries or in specific</comment>
+                        </sallowspecific>
+                        <specificcountry translate="label">
+                            <label>Allowed countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>11</sort_order>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <can_be_empty>0</can_be_empty>
+                            <can_be_empty>1</can_be_empty>
+                            <comment>Select one or more countries where dpd should be available for</comment>
+                        </specificcountry>
+                        <google_maps_api translate="label">
+                            <label>Google Maps API</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[<a href="https://developers.google.com/maps/documentation/javascript/tutorial?hl=nl#api_key" target="_blank">How to request an API key</a>]]></comment>
+                        </google_maps_api>
+                        <google_maps_width translate="label">
+                            <label>Map width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>13</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Width of the inline map (in px)</comment>
+                        </google_maps_width>
+                        <google_maps_height translate="label">
+                            <label>Map height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Height of the inline map (in px)</comment>
+                        </google_maps_height>
+                        <google_maps_maxpointers translate="label">
+                            <label>Map - max num of shops</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Maximum number of Parcelshops to be put on the map</comment>
+                        </google_maps_maxpointers>
+                        <google_maps_display translate="label">
+                            <label>Map presentation</label>
+                            <frontend_type>select</frontend_type>
+                            <frontend_type>select</frontend_type>
+                            <source_model>dpd/system_config_source_display</source_model>
+                            <sort_order>16</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Show the map inline or as an overlay</comment>
+                        </google_maps_display>
+                        <google_maps_enable_list translate="label">
+                            <label>Map list</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>17</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Show the list of ParcelShops to the right of the map</comment>
+                        </google_maps_enable_list>
+                        <custom_parcelshops_import translate="label">
+                            <label>Custom ParcelShops - CSV</label>
+                            <frontend_type>import</frontend_type>
+                            <backend_model>dpd/adminhtml_system_config_backend_shipping_specialparcelshops</backend_model>
+                            <sort_order>18</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>Contact DPD to get the CSV !</comment>
+                        </custom_parcelshops_import>
+                        <check_custom_parcelshops_import translate="label">
+                            <label></label>
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>dpd/adminhtml_system_config_form_availability</frontend_model>
+                            <sort_order>19</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </check_custom_parcelshops_import>
+                        <special_parcelshop_icon translate="label">
+                            <label>Custom ParcelShops - logo</label>
+                            <frontend_type>image</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_image</backend_model>
+                            <upload_dir config="system/filesystem/media" scope_info="1">dpd</upload_dir>
+                            <base_url type="media" scope_info="1">dpd</base_url>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Upload your custom map logo (100x100 px)</comment>
+                        </special_parcelshop_icon>
+                        <google_maps_icon translate="label">
+                            <label>Custom ParcelShops – map logo</label>
+                            <frontend_type>image</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_image</backend_model>
+                            <upload_dir config="system/filesystem/media" scope_info="1">dpd</upload_dir>
+                            <base_url type="media" scope_info="1">dpd</base_url>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>Enabled
+                            <comment>Map pointer image. (57x57 px)</comment>
+                        </google_maps_icon>
+                    </fields>
+                </dpdparcelshops>
+            </groups>
+        </carriers>
+    </sections>
+</config>

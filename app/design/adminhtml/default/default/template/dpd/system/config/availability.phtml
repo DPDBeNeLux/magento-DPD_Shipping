@@ -1,0 +1,33 @@
+<?php
+/**
+ * Created by PHPro
+ *
+ * @package      DPD
+ * @subpackage   Shipping
+ * @category     Checkout
+ * @author       PHPro (info@phpro.be)
+ */
+/**
+ * Displays parcelshop csv availability in sysconfig.
+ */
+?>
+<script type="text/javascript">
+    //<![CDATA[
+    var data = "id="+'<?php echo $this->getWebsiteScopeId() ?>';
+    function check() {
+        new Ajax.Request('<?php echo $this->getAjaxCheckUrl() ?>', {
+            parameters: data,
+            method:     'post',
+            onSuccess: function(transport){
+                if (transport.responseText){
+                    window.location.href = window.location.href;
+                }
+            }
+        });
+    }
+    //]]>
+</script>
+<?php echo $this->getAvailabilityHtml() ?>
+<?php if($this->getParcelshopsAvailableForThisWebsite() != 0): ?>
+<?php echo $this->getButtonHtml() ?>
+<?php endif; ?>

@@ -1,0 +1,25 @@
+.dpdloaderwrapper {width: 350px; text-align: center; margin-top: 10px; text-decoration:none;color: #2f2f2f;margin-bottom: 25px;}
+.dpdloaderwrapper .dpdloader{background:url('../../images/dpd/ajax-loader.gif'); height:32px; width:32px;display: block;float: left;}
+.dpdloaderwrapper .message{display:block; padding-top:8px;}
+.parcelshopwrapper .dpdinfo{position:relative;}
+.parcelshopwrapper .gmaps {float: left;}
+.parcelshopwrapper #map_canvas{line-height:normal;}
+.parcelshopwrapper .gmaps .dotted-line{margin-top: 7px;padding-top: 10px;border-top: 1px dotted #666;}
+.parcelshopwrapper .shops {float: left; clear:right;font-size:11px;overflow-y:scroll;}
+.parcelshopwrapper .shops .specialparcelshopImage{float:left;padding-top:10px; padding-right:5px;}
+.parcelshopwrapper .extrainfo {cursor:pointer;padding-top: 2px;}
+.parcelshopwrapper .dpdclear{clear:both;position:relative;min-height:5px;min-width:5px;}
+.parcelshopwrapper .extrainfocontent{margin-right:20px; clear:left;}
+.parcelshopwrapper .extrainfowrapper{position: absolute; height:auto; padding: 10px; background-color: white; border: 1px solid black; top: -10px;margin-left:20px;}
+.parcelshopwrapper .extrainfowrapper .day{font-weight:bold;}
+.parcelshopwrapper .parcelshoplogo{margin-right:10px;width:100px; height:82px;}
+.parcelshopwrapper .parcelshoplogo.bubble{margin-right:5px;width:95px; height:79px;}
+.parcelshopwrapper .daywrapper{margin-right:25px;}
+.parcelshopwrapper .pointer{cursor:pointer;}
+.parcelshopwrapper  a.parcelshoplink{color:#666; text-decoration: none;text-transform: uppercase;padding-top:5px;}
+.parcelshopwrapper .extrainfocontent .timetable{min-width:360px;}
+.parcelshopwrapper .extrainfocontent .title{font-weight:bold; font-size:14px; margin-bottom:5px; }
+.parcelshopwrapper .shop-details{padding-top: 9px;padding-bottom: 5px;}
+.parcelshopwrapper .shop-details li{margin:0;}
+.parcelshopwrapper .shop-data{background-color: #E7F1FA;border-bottom: 1px solid #FFF;color: #666;padding-left:10px;padding-right:10px;}
+.parcelshopwrapper .dpd_close_map{float: right;margin-right: 20px;margin-top: 5px;margin-bottom: 5px;}

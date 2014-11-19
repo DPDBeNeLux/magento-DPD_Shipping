@@ -1,0 +1,77 @@
+<?php
+/**
+ * Created by PHPro
+ *
+ * @package      DPD
+ * @subpackage   Shipping
+ * @category     Checkout
+ * @author       PHPro (info@phpro.be)
+ */
+/**
+ * Diplays returnlabel grid in tab on order detail.
+ */
+?>
+<?php
+$returnlabelCount = count($this->getReturnLabels());
+?>
+<?php if(Mage::app()->getRequest()->getParam('dpdReturn') || Mage::getModel('core/session')->getDpdReturn() == 1): ?>
+<?php if(!Mage::getModel('core/session')->getDpdReturn()) Mage::getModel('core/session')->setDpdReturn(1) ?>
+
+<script type="text/javascript">
+    document.observe("dom:loaded", function (evt) {
+        $$('.form-buttons .back')[0].observe('click', function () {
+            setLocation("<?php echo Mage::helper("adminhtml")->getUrl('adminhtml/dpdorder/')?>");
+            evt.preventDefault();
+        });
+    });
+</script>
+<?php endif; ?>
+<div class="grid np">
+    <div class="hor-scroll">
+        <table cellspacing="0" class="data order-tables">
+            <colgroup>
+                <col width="1">
+                <col width="1">
+                <col width="1">
+                <col width="1">
+            </colgroup>
+            <thead>
+            <tr class="headings">
+                <th><span class="nobr"><?php echo Mage::helper('dpd')->__('Date created') ?></span></th>
+                <th><span class="nobr"><?php echo Mage::helper('dpd')->__('Label number') ?></span></th>
+                <th><span class="nobr"><?php echo Mage::helper('dpd')->__('Download') ?></span></th>
+                <th><span class="nobr"><?php echo Mage::helper('dpd')->__('Email') ?></span></th>
+            </tr>
+            </thead>
+            <tbody class="even">
+            <?php if ($returnlabelCount > 0): ?>
+                <?php foreach ($this->getReturnLabels() as $returnlabel): ?>
+                    <tr class="border"'>
+                    <td><?php echo $returnlabel->getDateCreated() ?></td>
+                    <td><?php echo $returnlabel->getLabelNumber() ?></td>
+                    <td>
+                        <p>
+                            <a href="<?php echo Mage::getBaseUrl('media') . "dpd/returnlabel/" . $returnlabel->getLabelPdfUrl() ?>" target="_new"
+                               download><?php echo Mage::helper('dpd')->__('Download Label PDF') ?></a>
+                        </p>
+
+                        <p>
+                            <a href="<?php echo Mage::getBaseUrl('media') . "dpd/returnlabel/" . $returnlabel->getLabelInstructionsUrl() ?>" target="_new"
+                               download><?php echo Mage::helper('dpd')->__('Download Instructions PDF') ?></a>
+                        </p>
+                    </td>
+                    <td>
+                        <a onclick="return confirm('<?php echo Mage::helper('adminhtml')->__('Are you sure?') ?>');" href="<?php echo Mage::helper("adminhtml")->getUrl('adminhtml/dpdorder/sendEmail/order_id/' . $returnlabel->getOrderId() . '/return_id/' . $returnlabel->getReturnlabelsId()) ?>"><?php echo Mage::helper('dpd')->__('Email to client') ?></a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            <?php else: ?>
+                <tr class="border">
+                    <td colspan="5"
+                        class="a-center"><?php echo Mage::helper('dpd')->__('No records found.') ?></td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

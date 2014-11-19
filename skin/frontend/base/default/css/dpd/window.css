@@ -1,0 +1,14 @@
+.overlay_DPD_window {background-color: #666666; filter:alpha(opacity=60); -moz-opacity: 0.6; opacity: 0.6;}
+.overlay___invisible__ {background-color: #666666; filter:alpha(opacity=0); -moz-opacity: 0; opacity: 0;}
+.DPD_window_close{width: 30px; height: 30px; background-image:url('../../images/dpd/button_close.png'); position:absolute; top:-10px; right:-10px; cursor:pointer; z-index:2000;display:block;}
+.dialog_title {float:left; height:14px; font-family: Tahoma, Arial, sans-serif; font-size:12px; text-align:center; width:100%; color:#000;}
+.dialog_content {overflow:auto; color: #2F2F2F; font-family: Tahoma, Arial, sans-serif; background-color:#FFF;}
+.top_draggable, .bottom_draggable { cursor:move;display:none;}
+.status_bar {font-size:12px;}
+.status_bar input{font-size:12px;}
+.wired_frame {display: block; position: absolute; border: 1px #000 dashed;}
+.dialog {display: block;  position: absolute;}
+.dialog table.table_window  {border-collapse: collapse; border-spacing: 0; width: 100%; margin: 0; padding:0;}
+.dialog table.table_window td , .dialog table.table_window th {padding: 0;}
+.dialog .title_window {-moz-user-select:none;}
+.DPD_window_content{background:white;}

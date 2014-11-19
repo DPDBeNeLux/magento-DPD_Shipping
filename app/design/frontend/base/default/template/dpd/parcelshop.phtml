@@ -1,0 +1,60 @@
+<?php
+/**
+ * Created by PHPro
+ *
+ * @package      DPD
+ * @subpackage   Shipping
+ * @category     Checkout
+ * @author       PHPro (info@phpro.be)
+ */
+/**
+ * ParcelShop HTML
+ */
+?>
+<?php
+if (Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_enable_list')) {
+    $shopswidth = 230;
+} else {
+    $shopswidth = 0;
+}
+$totalmapwidth = Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_width');
+$height = Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_height');
+$html = $this->getShopsHtml();
+?>
+<style>
+    .parcelshopwrapper .shops {
+        width: <?php echo $shopswidth ?>px;
+        height: <?php echo $height ?>px;
+    }
+
+    #map_canvas {
+        width: <?php echo $totalmapwidth - $shopswidth - 20 ?>px;
+        height: <?php echo $height ?>px;
+    }
+
+</style>
+<div id="parcelshop" class="parcelshopwrapper">
+    <?php if($html): ?>
+    <div id="map_canvas" class="gmaps"></div>
+    <?php if (Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_enable_list')): ?>
+        <div class="shops">
+            <?php echo $html ?>
+        </div>
+    <?php endif; ?>
+    <?php if (!Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_display')): ?>
+        <a href="#" class="dpd_close_map"><?php echo Mage::helper('dpd')->__('Close this map') ?></a>
+    <?php endif; ?>
+    <input type="hidden" class="DPD-confirmed" value="0"/>
+    <script type="text/javascript">
+        window.dpdconfig = <?php echo $this->getConfig() ?>;
+        <?php if($this->getIsAjax() || Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_display')): ?>
+        window.dpdShipping = new DPD.Shipping('DPD_window_content', window.dpdconfig);
+        <?php else: ?>
+        window.dpdShipping = new DPD.Shipping('checkout-shipping-method-load', window.dpdconfig);
+        <?php endif; ?>
+    </script>
+    <div class="dpdclear"></div>
+    <?php else: ?>
+        <h2><?php echo Mage::helper('dpd')->__('No parcelshops were found, please verify your shipping address.') ?></h2>
+    <?php endif ?>
+</div>
