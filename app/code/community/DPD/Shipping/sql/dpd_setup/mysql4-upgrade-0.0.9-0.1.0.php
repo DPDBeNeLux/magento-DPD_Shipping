@@ -9,7 +9,7 @@
  */
 $installer = $this;
 $installer->startSetup();
-$installer->run("CREATE TABLE `dpd_shipping_dpdparcelshops_tablerate` (
+$installer->run("CREATE TABLE {$installer->getTable('dpd_shipping_dpdparcelshops_tablerate')} (
  `pk` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary key',
  `website_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Website Id',
  `dest_country_id` varchar(4) NOT NULL DEFAULT '0' COMMENT 'Destination coutry ISO/2 or ISO/3 code',

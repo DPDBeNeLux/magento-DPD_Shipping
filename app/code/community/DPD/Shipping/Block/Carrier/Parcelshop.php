@@ -67,10 +67,10 @@ class DPD_Shipping_Block_Carrier_Parcelshop extends Mage_Core_Block_Template
     public function getConfig()
     {
         $center = explode(",", Mage::Helper('dpd')->getGoogleMapsCenter());
-        $this->_configArray["saveParcelUrl"] = $this->getUrl('dpd/ajax/saveparcel');
-        $this->_configArray["invalidateParcelUrl"] = $this->getUrl('dpd/ajax/invalidateparcel');
-        $this->_configArray["windowParcelUrl"] = $this->getUrl('dpd/ajax/windowindex');
-        $this->_configArray["ParcelUrl"] = $this->getUrl('dpd/ajax/index');
+        $this->_configArray["saveParcelUrl"] = $this->getUrl('dpd/ajax/saveparcel', array('_secure' => true));
+        $this->_configArray["invalidateParcelUrl"] = $this->getUrl('dpd/ajax/invalidateparcel', array('_secure' => true));
+        $this->_configArray["windowParcelUrl"] = $this->getUrl('dpd/ajax/windowindex', array('_secure' => true));
+        $this->_configArray["ParcelUrl"] = $this->getUrl('dpd/ajax/index', array('_secure' => true));
         $this->_configArray["gmapsCenterlat"] = $center[0];
         $this->_configArray["gmapsCenterlng"] = $center[1];
         $this->_configArray["gmapsHeight"] = Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_height') . 'px';

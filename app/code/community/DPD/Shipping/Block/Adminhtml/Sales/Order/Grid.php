@@ -33,7 +33,7 @@ class DPD_Shipping_Block_Adminhtml_Sales_Order_Grid extends Mage_Adminhtml_Block
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('sales/order_grid_collection');
-        $collection->getSelect()->join('sales_flat_order', '`sales_flat_order`.entity_id=`main_table`.entity_id', array(
+        $collection->getSelect()->join(Mage::getConfig()->getTablePrefix() . 'sales_flat_order as sfo', 'sfo.entity_id=`main_table`.entity_id', array(
             'shipping_method' => 'shipping_method',
             'total_qty_ordered' => 'ROUND(total_qty_ordered,0)',
             'dpd_label_exported' => 'dpd_label_exported',
@@ -69,7 +69,7 @@ class DPD_Shipping_Block_Adminhtml_Sales_Order_Grid extends Mage_Adminhtml_Block
                 'type' => 'store',
                 'store_view' => true,
                 'display_deleted' => true,
-                'filter_index' => 'sales_flat_order.store_id'
+                'filter_index' => 'sfo.store_id'
             ));
         }
         $this->addColumn('created_at', array(

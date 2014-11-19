@@ -10,7 +10,7 @@
 $installer = $this;
 $installer->startSetup();
 $installer->run("
-     CREATE TABLE IF NOT EXISTS {$this->getTable('dpd_shipping_specialparcelshops')} (
+     CREATE TABLE IF NOT EXISTS {$installer->getTable('dpd_shipping_specialparcelshops')} (
      `specialparselshops_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
      `parcelshop_delicom_id` varchar(255) NOT NULL,
      `parcelshop_website_id` int(11) NULL,
