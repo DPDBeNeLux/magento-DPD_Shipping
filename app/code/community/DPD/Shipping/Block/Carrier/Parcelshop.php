@@ -81,6 +81,7 @@ class DPD_Shipping_Block_Carrier_Parcelshop extends Mage_Core_Block_Template
         $this->_configArray["gmapsCustomIcon"] = (Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_icon') ? Mage::getBaseUrl('media') . "dpd/" . Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_icon') : "");
         $this->_configArray["gmapsDisplay"] = (bool)Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_display');
         $this->_configArray["loaderimage"] = $this->getSkinUrl('images/dpd/ajax-loader.gif');
+        $this->_configArray["freeShippingOnCustom"] = (bool)Mage::getStoreConfig('carriers/dpdparcelshops/custom_parcelshops_free_shipping');
         return Mage::helper('core')->jsonEncode($this->_configArray);
     }
 
@@ -290,5 +291,18 @@ class DPD_Shipping_Block_Carrier_Parcelshop extends Mage_Core_Block_Template
     {
         return Mage::getModel('checkout/cart')->getQuote();
     }
+
+    /**
+     * Returns shipping cost.
+     *
+     * @return string
+     */
+    public function getShippingAmount() {
+        $cost = $this->getQuote()->getShippingAddress()->getShippingAmount();
+
+        return number_format((float)$cost, 2, '.', '');
+    }
+
+
 
 }

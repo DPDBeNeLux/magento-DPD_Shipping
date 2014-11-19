@@ -277,6 +277,12 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
                 $result = $client->__soapCall($method, array($parameters));
                 $stop = true;
 
+                if($result->orderResult->shipmentResponses->faults) {
+                    Mage::helper('dpd')->log('Webservice ' . $method . ' failed:', Zend_Log::ERR);
+                    Mage::helper('dpd')->log($result->orderResult->shipmentResponses->faults, Zend_Log::ERR);
+                    return false;
+                }
+
                 Mage::helper('dpd')->log('Webservice ' . $method . ' succeeded', Zend_Log::INFO);
                 Mage::helper('dpd')->log($result, Zend_Log::DEBUG);
 

@@ -18,6 +18,7 @@ $dpdExtraInfoDecoded = json_decode($dpdExtraInfo);
 $this->getShopsHtml();
 ?>
 <div id="parcelshop" class="parcelshopwrapper">
+    <input type="hidden" id="custom-shipping-amount" value="€<?php echo $this->getShippingAmount()?>">
     <ul>
         <img class="left parcelshoplogo"
              src="<?php echo Mage::getDesign()->getSkinUrl('images/dpd/dpd_parcelshop_logo.png') ?>"

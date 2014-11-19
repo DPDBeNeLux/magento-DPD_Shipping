@@ -151,6 +151,7 @@ class DPD_Shipping_Model_Carrier_Dpdclassic extends Mage_Shipping_Model_Carrier_
      */
     public function getTracking($tracking_number)
     {
+        $tracking_numberExploded = explode('-', $tracking_number);
         $tracking_result = Mage::getModel('shipping/tracking_result');
         $tracking_status = Mage::getModel('shipping/tracking_result_status');
         $localeExploded = explode('_', Mage::app()->getLocale()->getLocaleCode());
@@ -159,7 +160,7 @@ class DPD_Shipping_Model_Carrier_Dpdclassic extends Mage_Shipping_Model_Carrier_
         $tracking_status->setTracking($tracking_number);
         $tracking_status->addData(
             array(
-                'status' => '<a target="_blank" href="' . "http://tracking.dpd.de/cgi-bin/delistrack?typ=32&lang=" . $localeExploded[0] . "&pknr=" . $tracking_number . "&var=" . Mage::getStoreConfig('shipping/dpdclassic/userid') . '">' . Mage::helper('dpd')->__('Track this shipment') . '</a>'
+                'status' => '<a target="_blank" href="' . "http://tracking.dpd.de/cgi-bin/delistrack?typ=32&lang=" . $localeExploded[0] . "&pknr=" . $tracking_numberExploded[1] . "&var=" . Mage::getStoreConfig('shipping/dpdclassic/userid') . '">' . Mage::helper('dpd')->__('Track this shipment') . '</a>'
             )
         );
         $tracking_result->append($tracking_status);

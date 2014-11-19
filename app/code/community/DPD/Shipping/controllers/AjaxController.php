@@ -35,7 +35,13 @@ class DPD_Shipping_AjaxController extends Mage_Core_Controller_Front_Action {
      */
     public function saveparcelAction(){
         $parcelData =  $this->getRequest()->getPost();
-        Mage::getModel('checkout/cart')->getQuote()
+        if($parcelData['special'] === 'false') {
+            $parcelData['special'] = false;
+        }
+
+        $quote = Mage::getModel('checkout/cart')->getQuote();
+
+        $quote
             ->setDpdSelected(1)
             ->setDpdParcelshopId($parcelData['parcelShopId'])
             ->setDpdCompany($parcelData['company'])
@@ -44,9 +50,17 @@ class DPD_Shipping_AjaxController extends Mage_Core_Controller_Front_Action {
             ->setDpdCity($parcelData['city'])
             ->setDpdCountry($parcelData['country'])
             ->setDpdExtraInfo($parcelData['extra_info'])
+            ->setDpdSpecialPoint(Mage::getStoreConfig('carriers/dpdparcelshops/custom_parcelshops_free_shipping') && $parcelData['special'])
             ->save();
-       $this->loadLayout();
-       $this->renderLayout();
+
+        $quote->getShippingAddress()
+            ->setShippingMethod('dpdparcelshops_dpdparcelshops')
+            ->requestShippingRates();
+
+        $quote->save();
+
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**

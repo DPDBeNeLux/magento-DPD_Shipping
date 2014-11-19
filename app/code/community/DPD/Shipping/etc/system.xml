@@ -476,6 +476,15 @@
                             <show_in_store>1</show_in_store>Enabled
                             <comment>Map pointer image. (57x57 px)</comment>
                         </google_maps_icon>
+                        <custom_parcelshops_free_shipping translate="label">
+                            <label>Free shipping for custom parcel shops</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </custom_parcelshops_free_shipping>
                     </fields>
                 </dpdparcelshops>
             </groups>
