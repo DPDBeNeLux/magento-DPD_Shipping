@@ -15,7 +15,11 @@
     <a href="#" id="showparcels"><?php echo Mage::helper('dpd')->__('Click here to select your ParcelShop') ?></a>
     <script type="text/javascript">
         var dpdconfig = <?php echo $this->getConfig() ?>;
-        var dpdShipping = new DPD.Shipping('checkout-shipping-method-load', dpdconfig);
+        <?php if(Mage::helper('dpd')->getIsOnestepCheckout()): ?>
+        window.dpdShipping = new DPD.Shipping('.onestepcheckout-shipping-method', dpdconfig);
+        <?php else: ?>
+        window.dpdShipping = new DPD.Shipping('checkout-shipping-method-load', dpdconfig);
+        <?php endif; ?>
     </script>
     <input type="hidden" class="DPD-confirmed" value="0"/>
 </div>

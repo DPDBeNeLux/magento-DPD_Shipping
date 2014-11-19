@@ -84,3 +84,4 @@
 "Generating a label can take up to 1 second per label, please be patient during this process. It can take up to maximum 2 minutes. Do you want to continue?","Een label aanmaken kan duren tot 1 seconde per label, gelieve geduldig te zijn gedurende dit proces. Het kan maximaal 2 minuten duren. Wilt u verder gaan?"
 "The maximum number of orders to process is %s. You selected %s. Please deselect some orders and try again.","Het maximum aantal orders is %s; U selecteerde %s. Gelieve enkele orders te deselecteren en opnieuw te proberen."
 "No parcelshops were found, please verify your shipping address.","Er werden geen DPD ParcelShops gevonden, gelieve uw adres te controleren."
+"No data found, please fill in the required shipping data.","Geen gegevens gevonden, gelieve de vereiste verzendgegevens in te vullen."

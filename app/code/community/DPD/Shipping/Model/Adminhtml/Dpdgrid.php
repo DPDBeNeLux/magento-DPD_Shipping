@@ -7,6 +7,7 @@
  * @category     Checkout
  * @author       PHPro (info@phpro.be)
  */
+
 /**
  * Class DPD_Shipping_Model_Adminhtml_DpdGrid
  */
@@ -111,21 +112,35 @@ class DPD_Shipping_Model_Adminhtml_Dpdgrid extends Mage_Core_Model_Abstract
     {
         $parcelshop = false;
         $billingAddress = $order->getBillingAddress();
-        $recipient = array(
-            'name1' => $billingAddress->getFirstname() . " " . $billingAddress->getLastname(),
-            'street' => $billingAddress->getStreet(1) . " " . $billingAddress->getStreet(2),
-            'country' => $billingAddress->getCountry(),
-            'zipCode' => $billingAddress->getPostcode(),
-            'city' => $billingAddress->getCity()
-        );
+        $shippingAddress = $order->getShippingAddress();
         if (strpos($order->getShippingMethod(), 'parcelshop') !== false) {
             $parcelshop = true;
+        }
+        if ($parcelshop) {
+            $recipient = array(
+                'name1' => $billingAddress->getFirstname() . " " . $billingAddress->getLastname(),
+                'name2' => $billingAddress->getCompany(),
+                'street' => $billingAddress->getStreet(1) . " " . $billingAddress->getStreet(2),
+                'country' => $billingAddress->getCountry(),
+                'zipCode' => $billingAddress->getPostcode(),
+                'city' => $billingAddress->getCity()
+            );
+        }
+        else{
+            $recipient = array(
+                'name1' => $shippingAddress->getFirstname() . " " . $shippingAddress->getLastname(),
+                'name2' => $shippingAddress->getCompany(),
+                'street' => $shippingAddress->getStreet(1) . " " . $shippingAddress->getStreet(2),
+                'country' => $shippingAddress->getCountry(),
+                'zipCode' => $shippingAddress->getPostcode(),
+                'city' => $shippingAddress->getCity()
+            );
         }
         $labelWebserviceCallback = Mage::getSingleton('dpd/webservice')->getShippingLabel($recipient, $order, $shipment, $parcelshop);
 
         if ($labelWebserviceCallback) {
-            Mage::helper('dpd')->generatePdfAndSave($labelWebserviceCallback->parcellabelsPDF, 'orderlabels', $order->getIncrementId(). "-" .$labelWebserviceCallback->shipmentResponses->parcelInformation->parcelLabelNumber);
-            return $order->getIncrementId(). "-" .$labelWebserviceCallback->shipmentResponses->parcelInformation->parcelLabelNumber;
+            Mage::helper('dpd')->generatePdfAndSave($labelWebserviceCallback->parcellabelsPDF, 'orderlabels', $order->getIncrementId() . "-" . $labelWebserviceCallback->shipmentResponses->parcelInformation->parcelLabelNumber);
+            return $order->getIncrementId() . "-" . $labelWebserviceCallback->shipmentResponses->parcelInformation->parcelLabelNumber;
         } else {
             return false;
         }

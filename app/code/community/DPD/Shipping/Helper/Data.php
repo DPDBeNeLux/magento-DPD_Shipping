@@ -7,6 +7,7 @@
  * @category     Checkout
  * @author       PHPro (info@phpro.be)
  */
+
 /**
  * Class DPD_Shipping_Helper_Data
  */
@@ -105,10 +106,11 @@ class DPD_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
      * @param $message
      * @param $level
      */
-    public function log($message,$level){
+    public function log($message, $level)
+    {
         $allowedLogLevel = Mage::getStoreConfig('carriers/dpdparcelshops/log_level');
-        if($level <= $allowedLogLevel){
-            Mage::log($message,$level,'dpd.log');
+        if ($level <= $allowedLogLevel) {
+            Mage::log($message, $level, 'dpd.log');
         }
     }
 
@@ -119,11 +121,12 @@ class DPD_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
      * @param $folder
      * @param $name
      */
-    public function generatePdfAndSave($pdfString, $folder, $name){
+    public function generatePdfAndSave($pdfString, $folder, $name)
+    {
         $io = new Varien_Io_File();
         $io->setAllowCreateFolders(true);
-        $io->open(array('path' => Mage::getBaseDir('media')."/dpd/".$folder));
-        $io->streamOpen($name.'.pdf', 'w+');
+        $io->open(array('path' => Mage::getBaseDir('media') . "/dpd/" . $folder));
+        $io->streamOpen($name . '.pdf', 'w+');
         $io->streamLock(true);
         $io->streamWrite($pdfString);
         $io->streamUnlock();
@@ -135,7 +138,8 @@ class DPD_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return bool
      */
-    public function isMageEnterprise() {
+    public function isMageEnterprise()
+    {
         return Mage::getConfig()->getModuleConfig('Enterprise_Enterprise') && Mage::getConfig()->getModuleConfig('Enterprise_AdminGws') && Mage::getConfig()->getModuleConfig('Enterprise_Checkout') && Mage::getConfig()->getModuleConfig('Enterprise_Customer');
     }
 
@@ -148,7 +152,7 @@ class DPD_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
     public function getLanguageFromStore($storeId)
     {
         $locale = Mage::app()->getStore($storeId)->getConfig('general/locale/code');
-        $localeCode = explode('_' , $locale);
+        $localeCode = explode('_', $locale);
 
         return strtoupper($localeCode[0]);
     }
@@ -159,13 +163,43 @@ class DPD_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
      * @param $shipment
      * @return int
      */
-    public function calculateTotalShippingWeight($shipment){
+    public function calculateTotalShippingWeight($shipment)
+    {
         $weight = 0;
         $shipmentItems = $shipment->getAllItems();
         foreach ($shipmentItems as $shipmentItem) {
-            $weight = $weight + $shipmentItem->getWeight();
+            $orderItem = $shipmentItem->getOrderItem();
+            if(!$orderItem->getParentItemId()){
+            $weight = $weight + ($shipmentItem->getWeight() * $shipmentItem->getQty());
+            }
         }
 
         return $weight;
+    }
+
+    /**
+     * Check if on Onestepcheckout page or if Onestepcheckout is the refferer
+     *
+     * @return bool
+     */
+    public function getIsOnestepCheckout()
+    {
+        if (strpos(Mage::helper("core/url")->getCurrentUrl(), 'onestepcheckout') !== false || strpos(Mage::app()->getRequest()->getHeader('referer'), 'onestepcheckout') !== false) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Return our custom js when the check for onestepcheckout returns true.
+     *
+     * @return string
+     */
+    public function getOnestepCheckoutJs()
+    {
+        if ($this->getIsOnestepCheckout()) {
+            return 'dpd/onestepcheckout_shipping.js';
+        }
+        return '';
     }
 }

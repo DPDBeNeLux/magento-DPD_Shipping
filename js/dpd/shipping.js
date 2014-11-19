@@ -183,7 +183,6 @@ DPD.Shipping = Class.create({
                         priceContainer.removeClassName('price-changed');
                     }.bind(this), 2000)
                 }
-                checkout.reloadProgressBlock();
             }.bind(this)
         });
 

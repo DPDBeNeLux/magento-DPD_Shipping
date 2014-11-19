@@ -12,6 +12,9 @@
  */
 ?>
 <?php
+$shippingaddress = Mage::getSingleton('checkout/session')->getQuote()->getShippingAddress();
+if(($shippingaddress->getPostcode() != "" && $shippingaddress->getPostcode() != "-") &&
+($shippingaddress->getCountryId()!= "" && $shippingaddress->getCountryId()!= "-")):
 if (Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_enable_list')) {
     $shopswidth = 230;
 } else {
@@ -49,12 +52,23 @@ $html = $this->getShopsHtml();
         window.dpdconfig = <?php echo $this->getConfig() ?>;
         <?php if($this->getIsAjax() || Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_display')): ?>
         window.dpdShipping = new DPD.Shipping('DPD_window_content', window.dpdconfig);
+        <?php elseif(Mage::helper('dpd')->getIsOnestepCheckout()): ?>
+        window.dpdShipping = new DPD.Shipping('.onestepcheckout-shipping-method', window.dpdconfig);
         <?php else: ?>
         window.dpdShipping = new DPD.Shipping('checkout-shipping-method-load', window.dpdconfig);
         <?php endif; ?>
     </script>
     <div class="dpdclear"></div>
     <?php else: ?>
+    <div class="dpderror">
+        <img src="<?php echo Mage::getDesign()->getSkinUrl('images/dpd/dpd_parcelshop_logo.png') ?>" alt="dpdlogo"/>
         <h2><?php echo Mage::helper('dpd')->__('No parcelshops were found, please verify your shipping address.') ?></h2>
+    </div>
     <?php endif ?>
 </div>
+<?php else: ?>
+<div class="dpderror">
+    <img src="<?php echo Mage::getDesign()->getSkinUrl('images/dpd/dpd_parcelshop_logo.png') ?>" alt="dpdlogo"/>
+    <h2><?php echo Mage::helper('dpd')->__('No data found, please fill in the required shipping data.'); ?></h2>
+</div>
+<?php endif; ?>

@@ -31,17 +31,17 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
     /**
      * Path to login webservice wsdl.
      */
-    CONST WEBSERVICE_LOGIN = 'LoginService/V2_0?wsdl';
+    CONST WEBSERVICE_LOGIN = 'LoginService/V2_0/?wsdl';
 
     /**
      * Path to ParcelShopFinder webservice wsdl.
      */
-    CONST WEBSERVICE_PARCELSHOP = 'ParcelShopFinderService/V3_0?wsdl';
+    CONST WEBSERVICE_PARCELSHOP = 'ParcelShopFinderService/V3_0/?wsdl';
 
     /**
      * Path to Shipment webservice wsdl.
      */
-    CONST WEBSERVICE_SHIPMENT = 'ShipmentService/V2_0?wsdl';
+    CONST WEBSERVICE_SHIPMENT = 'ShipmentService/V2_0/?wsdl';
 
     /**
      * Product type for shipmentservice, should be always 'CL' as instructed by DPD.
@@ -277,11 +277,17 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
                 $result = $client->__soapCall($method, array($parameters));
                 $stop = true;
 
-                if($result->orderResult->shipmentResponses->faults) {
+                if(isset($result->orderResult->shipmentResponses->faults) || isset($result->orderResult->shipmentResponses->faultString)) {
                     Mage::helper('dpd')->log('Webservice ' . $method . ' failed:', Zend_Log::ERR);
-                    Mage::helper('dpd')->log($result->orderResult->shipmentResponses->faults, Zend_Log::ERR);
+                    if(isset($result->orderResult->shipmentResponses->faults)){
+                        Mage::helper('dpd')->log($result->orderResult->shipmentResponses->faults, Zend_Log::ERR);
+                    }
+                    if(isset($result->orderResult->shipmentResponses->faultString)){
+                        Mage::helper('dpd')->log($result->orderResult->shipmentResponses->faultString, Zend_Log::ERR);
+                    }
                     return false;
                 }
+
 
                 Mage::helper('dpd')->log('Webservice ' . $method . ' succeeded', Zend_Log::INFO);
                 Mage::helper('dpd')->log($result, Zend_Log::DEBUG);

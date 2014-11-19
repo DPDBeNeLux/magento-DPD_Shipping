@@ -59,6 +59,10 @@ $this->getShopsHtml();
     <input type="hidden" class="parcelshopId" value="<?php echo $quote->getDpdParcelshopId() ?>" />
     <script type="text/javascript">
         window.dpdconfig = <?php echo $this->getConfig() ?>;
+        <?php if(Mage::helper('dpd')->getIsOnestepCheckout()): ?>
+        window.dpdShipping = new DPD.Shipping('.onestepcheckout-shipping-method', window.dpdconfig);
+        <?php else: ?>
         window.dpdShipping = new DPD.Shipping('checkout-shipping-method-load', window.dpdconfig);
+        <?php endif; ?>
     </script>
 </div>

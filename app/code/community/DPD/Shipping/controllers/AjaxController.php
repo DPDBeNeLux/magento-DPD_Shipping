@@ -55,6 +55,7 @@ class DPD_Shipping_AjaxController extends Mage_Core_Controller_Front_Action {
 
         $quote->getShippingAddress()
             ->setShippingMethod('dpdparcelshops_dpdparcelshops')
+            ->setCollectShippingRates(true)
             ->requestShippingRates();
 
         $quote->save();

@@ -23,3 +23,10 @@
 .parcelshopwrapper .shop-details li{margin:0;}
 .parcelshopwrapper .shop-data{background-color: #E7F1FA;border-bottom: 1px solid #FFF;color: #666;padding-left:10px;padding-right:10px;}
 .parcelshopwrapper .dpd_close_map{float: right;margin-right: 20px;margin-top: 5px;margin-bottom: 5px;}
+.dpderror{text-align: center; margin-top: 30%;}
+.dpderror img{padding-bottom: 15px;}
+.onestepcheckout-shipping-method-block img.parcelshoplogo{display:none;}
+.onestepcheckout-shipping-method-block .parcelshopwrapper .extrainfowrapper{z-index:2;}
+.onestepcheckout-shipping-method-block .parcelshopwrapper ul li{padding:0px;}
+.onestepcheckout-shipping-method-block .parcelshopwrapper ul {padding-top:5px; padding-bottom:5px;}
+.onestepcheckout-shipping-method-block .parcelshopwrapper ul li.dpdinfo{font-weight:bold;}

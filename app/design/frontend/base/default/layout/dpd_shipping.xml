@@ -17,6 +17,9 @@
             <action method="addCss">
                 <name>css/dpd/window.css</name>
             </action>
+            <action method="addJs">
+                <file helper="dpd/data/getOnestepCheckoutJs"/>
+            </action>
             <block type="core/template" name="gmapsapi" template="dpd/gmapsapi.phtml"/>
         </reference>
     </dpd_checkout_header>
@@ -53,4 +56,7 @@
             <block type="shipping/tracking_popup" name="ordertracking" template="dpd/ordertracking.phtml" before="-"/>
         </reference>
     </shipping_tracking_popup>
+    <onestepcheckout_index_index>
+        <update handle="dpd_checkout_header"/>
+    </onestepcheckout_index_index>
 </layout>

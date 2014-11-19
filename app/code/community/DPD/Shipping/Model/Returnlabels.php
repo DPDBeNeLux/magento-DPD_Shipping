@@ -7,6 +7,7 @@
  * @category     Checkout
  * @author       PHPro (info@phpro.be)
  */
+
 /**
  * Class DPD_Shipping_Model_Returnlabels
  */
@@ -29,27 +30,43 @@ class DPD_Shipping_Model_Returnlabels extends Mage_Core_Model_Abstract
     public function generateLabelAndSave($orderId)
     {
         $order = Mage::getModel('sales/order')->load($orderId);
-        $billingAddress = $order->getBillingAddress();
-        $recipient = array(
-            'name1' => $billingAddress->getFirstname() . " " . $billingAddress->getLastname(),
-            'street' => $billingAddress->getStreet(1) . " " . $billingAddress->getStreet(2),
-            'country' => $billingAddress->getCountry(),
-            'zipCode' => $billingAddress->getPostcode(),
-            'city' => $billingAddress->getCity()
-        );
+        if (strpos($order->getShippingMethod(), 'parcelshop') !== false) {
+            $parcelshop = true;
+        }
+        if ($parcelshop) {
+            $billingAddress = $order->getBillingAddress();
+            $recipient = array(
+                'name1' => $billingAddress->getFirstname() . " " . $billingAddress->getLastname(),
+                'name2' => $billingAddress->getCompany(),
+                'street' => $billingAddress->getStreet(1) . " " . $billingAddress->getStreet(2),
+                'country' => $billingAddress->getCountry(),
+                'zipCode' => $billingAddress->getPostcode(),
+                'city' => $billingAddress->getCity()
+            );
+        } else {
+            $shippingAddress = $order->getShippingAddress();
+            $recipient = array(
+                'name1' => $shippingAddress->getFirstname() . " " . $shippingAddress->getLastname(),
+                'name2' => $shippingAddress->getCompany(),
+                'street' => $shippingAddress->getStreet(1) . " " . $shippingAddress->getStreet(2),
+                'country' => $shippingAddress->getCountry(),
+                'zipCode' => $shippingAddress->getPostcode(),
+                'city' => $shippingAddress->getCity()
+            );
+        }
         $returnlabel = Mage::getSingleton('dpd/webservice')->getReturnLabel($recipient);
-        if(!$returnlabel){
+        if (!$returnlabel) {
             return false;
         }
         //convertstring to pdf and save
-        Mage::helper('dpd')->generatePdfAndSave($returnlabel->parcellabelsPDF, 'returnlabel', $order->getIncrementId() ."-". $returnlabel->shipmentResponses->parcelInformation->parcelLabelNumber);
+        Mage::helper('dpd')->generatePdfAndSave($returnlabel->parcellabelsPDF, 'returnlabel', $order->getIncrementId() . "-" . $returnlabel->shipmentResponses->parcelInformation->parcelLabelNumber);
 
         //save labeldata for admin display
         $returnLabelObject = new DPD_Shipping_Model_Returnlabels;
         $returnLabelObject
             ->setLabelNumber($returnlabel->shipmentResponses->parcelInformation->parcelLabelNumber)
-            ->setLabelPdfUrl( $order->getIncrementId() ."-".$returnlabel->shipmentResponses->parcelInformation->parcelLabelNumber . ".pdf")
-            ->setLabelInstructionsUrl( $order->getIncrementId() ."-".$returnlabel->shipmentResponses->parcelInformation->parcelLabelNumber . "-instructions.pdf")
+            ->setLabelPdfUrl($order->getIncrementId() . "-" . $returnlabel->shipmentResponses->parcelInformation->parcelLabelNumber . ".pdf")
+            ->setLabelInstructionsUrl($order->getIncrementId() . "-" . $returnlabel->shipmentResponses->parcelInformation->parcelLabelNumber . "-instructions.pdf")
             ->setOrderId($orderId)
             ->save();
         return $returnLabelObject->getId();
@@ -73,11 +90,11 @@ class DPD_Shipping_Model_Returnlabels extends Mage_Core_Model_Abstract
         $transactionalEmail = Mage::getModel('core/email_template')
             ->setDesignConfig(array('area' => 'frontend', 'store' => $order->getStoreId()));
         foreach ($attachments as $pdf_attachment) {
-            if (!empty($pdf_attachment) && file_exists(Mage::getBaseDir('media')."/dpd/returnlabel/".$pdf_attachment)) {
+            if (!empty($pdf_attachment) && file_exists(Mage::getBaseDir('media') . "/dpd/returnlabel/" . $pdf_attachment)) {
                 $transactionalEmail
                     ->getMail()
                     ->createAttachment(
-                        file_get_contents(Mage::getBaseDir('media')."/dpd/returnlabel/".$pdf_attachment),
+                        file_get_contents(Mage::getBaseDir('media') . "/dpd/returnlabel/" . $pdf_attachment),
                         Zend_Mime::TYPE_OCTETSTREAM,
                         Zend_Mime::DISPOSITION_ATTACHMENT,
                         Zend_Mime::ENCODING_BASE64,
@@ -101,12 +118,13 @@ class DPD_Shipping_Model_Returnlabels extends Mage_Core_Model_Abstract
      *
      * @param $returnId
      */
-    public function deleteEntryAndAttachments($returnId){
+    public function deleteEntryAndAttachments($returnId)
+    {
         $returnLabel = Mage::getModel('dpd/returnlabels')->load($returnId);
         $attachments = array($returnLabel->getLabelPdfUrl(), $returnLabel->getLabelInstructionsUrl());
         foreach ($attachments as $pdf_attachment) {
-            $file = Mage::getBaseDir('media')."/dpd/returnlabels/".$pdf_attachment;
-            if(file_exists($file)){
+            $file = Mage::getBaseDir('media') . "/dpd/returnlabels/" . $pdf_attachment;
+            if (file_exists($file)) {
                 unlink($file);
             }
         }
@@ -120,41 +138,39 @@ class DPD_Shipping_Model_Returnlabels extends Mage_Core_Model_Abstract
      * @param $returnId
      * @return string
      */
-    public function generateInstructionsPdf($orderId, $returnId){
+    public function generateInstructionsPdf($orderId, $returnId)
+    {
         $returnlabel = Mage::getModel('dpd/returnlabels')->load($returnId);
         $pdf = Zend_Pdf::load(Mage::getBaseDir('skin') . DS . 'adminhtml' . DS . 'default' . DS . 'default' . DS . 'dpd' . DS . 'returnlabel' . DS . 'instructions.pdf');
         $font = Zend_Pdf_Font::fontWithName(Zend_Pdf_Font::FONT_HELVETICA_BOLD);
         $page = $pdf->pages[0];
         $page->setFont($font, 15);
-        if(Mage::getStoreConfig('design/email/logo') && strpos(Mage::getStoreConfig('design/email/logo'),'.gif') === false && Mage::getVersion() >= "1.7"){
-         $uploadDir = Mage_Adminhtml_Model_System_Config_Backend_Email_Logo::UPLOAD_DIR;
-         $fullFileName = Mage::getBaseDir('media') . DS . $uploadDir . DS . Mage::getStoreConfig('design/email/logo');
-         $image = Zend_Pdf_Image::imageWithPath($fullFileName);
-         $imgWidthPts  = $image->getPixelWidth() * 72 / 96;
-         $imgHeightPts = $image->getPixelHeight() * 72 / 96;
-         $x1 = 50;
-         $y1 = 687;
-         $page->drawImage($image, $x1, $y1, $x1 + $imgWidthPts, $y1 + $imgHeightPts);
-        }
-        elseif(Mage::getVersion() < "1.7"){
-            try{
-            $fullFileName = Mage::getBaseDir('skin') . DS . 'frontend' . DS .'default' . DS . 'default' . DS . Mage::getStoreConfig('design/header/logo_src');
+        if (Mage::getStoreConfig('design/email/logo') && strpos(Mage::getStoreConfig('design/email/logo'), '.gif') === false && Mage::getVersion() >= "1.7") {
+            $uploadDir = Mage_Adminhtml_Model_System_Config_Backend_Email_Logo::UPLOAD_DIR;
+            $fullFileName = Mage::getBaseDir('media') . DS . $uploadDir . DS . Mage::getStoreConfig('design/email/logo');
             $image = Zend_Pdf_Image::imageWithPath($fullFileName);
-            $imgWidthPts  = $image->getPixelWidth() * 72 / 96;
+            $imgWidthPts = $image->getPixelWidth() * 72 / 96;
             $imgHeightPts = $image->getPixelHeight() * 72 / 96;
             $x1 = 50;
             $y1 = 687;
             $page->drawImage($image, $x1, $y1, $x1 + $imgWidthPts, $y1 + $imgHeightPts);
-            }
-            catch(Exception $e){
+        } elseif (Mage::getVersion() < "1.7") {
+            try {
+                $fullFileName = Mage::getBaseDir('skin') . DS . 'frontend' . DS . 'default' . DS . 'default' . DS . Mage::getStoreConfig('design/header/logo_src');
+                $image = Zend_Pdf_Image::imageWithPath($fullFileName);
+                $imgWidthPts = $image->getPixelWidth() * 72 / 96;
+                $imgHeightPts = $image->getPixelHeight() * 72 / 96;
+                $x1 = 50;
+                $y1 = 687;
+                $page->drawImage($image, $x1, $y1, $x1 + $imgWidthPts, $y1 + $imgHeightPts);
+            } catch (Exception $e) {
                 Mage::helper('dpd')->log('Instructions PDF: No logo found or incorrect file format', Zend_Log::INFO);
             }
-        }
-        else{
+        } else {
             Mage::helper('dpd')->log('Instructions PDF: No logo found or incorrect file format', Zend_Log::INFO);
         }
-        $page->drawText(implode(' ',str_split($returnlabel->getLabelNumber(), 4)), '321', '215');
+        $page->drawText(implode(' ', str_split($returnlabel->getLabelNumber(), 4)), '321', '215');
         $order = Mage::getResourceModel('sales/order_collection')->addAttributeToSelect('increment_id')->addAttributeToFilter('entity_id', array('eq' => $orderId))->getFirstItem();
-        Mage::helper('dpd')->generatePdfAndSave($pdf->render(),'returnlabel',$order->getIncrementId().'-'.$returnlabel->getLabelNumber()."-instructions");
+        Mage::helper('dpd')->generatePdfAndSave($pdf->render(), 'returnlabel', $order->getIncrementId() . '-' . $returnlabel->getLabelNumber() . "-instructions");
     }
 }

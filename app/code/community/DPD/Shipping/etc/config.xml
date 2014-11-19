@@ -2,7 +2,7 @@
 <config>
     <modules>
         <DPD_Shipping>
-            <version>1.0.6</version>
+            <version>1.0.7</version>
         </DPD_Shipping>
     </modules>
     <global>
@@ -111,6 +111,23 @@
                     </dpdshipping>
                 </observers>
             </checkout_controller_onepage_save_shipping_method>
+            <controller_action_predispatch_onestepcheckout_ajax_save_billing>
+                <observers>
+                    <dpdshippingonestepbilling>
+                        <type>singleton</type>
+                        <class>dpd/observer</class>
+                        <method>controller_action_predispatch_onestepcheckout_ajax_save_billing</method>
+                    </dpdshippingonestepbilling>
+                </observers>
+            </controller_action_predispatch_onestepcheckout_ajax_save_billing>
+            <checkout_submit_all_after>
+                <observers>
+                    <dpdshippingonestepsave>
+                        <class>dpd/observer</class>
+                        <method>checkout_submit_all_after</method>
+                    </dpdshippingonestepsave>
+                </observers>
+            </checkout_submit_all_after>
         </events>
         <routers>
             <dpd>

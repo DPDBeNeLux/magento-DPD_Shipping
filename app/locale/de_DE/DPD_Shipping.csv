@@ -84,3 +84,4 @@
 "Generating a label can take up to 1 second per label, please be patient during this process. It can take up to maximum 2 minutes. Do you want to continue?"
 "The maximum number of orders to process is %s. You selected %s. Please deselect some orders and try again."
 "No parcelshops were found, please verify your shipping address."
+"No data found, please fill in the required shipping data.","Keine Daten gefunden, bitte in den erforderlichen Versanddaten zu füllen."

@@ -7,6 +7,7 @@
  * @category     Checkout
  * @author       PHPro (info@phpro.be)
  */
+
 /**
  * Class DPD_Shipping_Model_Observer
  */
@@ -100,6 +101,47 @@ class DPD_Shipping_Model_Observer
         if (!$shipment->hasId() && !$shipment->getTotalWeight()) {
             $weight = Mage::helper('dpd')->calculateTotalShippingWeight($shipment);
             $shipment->setTotalWeight($weight);
+        }
+    }
+
+    /**
+     * If the checkout is a Onestepcheckout and dpdselected is true, we need to copy the address on submitting
+     *
+     * @param $observer
+     */
+    public function checkout_submit_all_after($observer)
+    {
+        if (Mage::helper('dpd')->getIsOnestepCheckout()) {
+            $quote = Mage::getSingleton('checkout/session')->getQuote();
+            $address = $quote->getShippingAddress();
+            if ($address->getShippingMethod() == "dpdparcelshops_dpdparcelshops" && (bool)$quote->getDpdSelected()) {
+                $address->unsetAddressId()
+                    ->unsetTelephone()
+                    ->setSaveInAddressBook(0)
+                    ->setFirstname('DPD ParcelShop: ')
+                    ->setLastname($quote->getDpdCompany())
+                    ->setStreet($quote->getDpdStreet())
+                    ->setCity($quote->getDpdCity())
+                    ->setPostcode($quote->getDpdZipcode())
+                    ->setCountryId($quote->getDpdCountry())
+                    ->save();
+            }
+            $quote->setDpdSelected(0);
+        }
+    }
+
+    /**
+     * If Billing/Shipping address was changed, reset the DPD shipping Method.
+     *
+     * @param $observer
+     */
+    public function controller_action_predispatch_onestepcheckout_ajax_save_billing($observer)
+    {
+        if (Mage::helper('dpd')->getIsOnestepCheckout()) {
+            $quote = Mage::getSingleton('checkout/session')->getQuote();
+            if ($quote->getDpdSelected()) {
+                $quote->setDpdSelected(0);
+            }
         }
     }
 }
