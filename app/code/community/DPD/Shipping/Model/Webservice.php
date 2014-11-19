@@ -351,7 +351,8 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
         $parameters = array(
             'longitude' => $longitude,
             'latitude' => $latitude,
-            'limit' => $limit
+            'limit' => $limit,
+            'consigneePickupAllowed' => 'true'
         );
 
         $result = $this->_webserviceCall($webserviceUrl, 'findParcelShopsByGeoData', $parameters);
