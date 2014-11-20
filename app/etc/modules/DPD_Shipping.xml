@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<config>
-    <modules>
-        <DPD_Shipping>
-            <active>true</active>
-            <codePool>community</codePool>
-        </DPD_Shipping>
-    </modules>
-</config>
