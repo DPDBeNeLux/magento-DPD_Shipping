@@ -59,4 +59,7 @@
     <onestepcheckout_index_index>
         <update handle="dpd_checkout_header"/>
     </onestepcheckout_index_index>
+    <firecheckout_index_index>
+        <update handle="dpd_checkout_header"/>
+    </firecheckout_index_index>
 </layout>
