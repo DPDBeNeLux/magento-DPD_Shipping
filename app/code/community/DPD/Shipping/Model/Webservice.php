@@ -242,15 +242,15 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
      *
      * @return array
      */
-    protected function _getSenderInformation()
+    protected function _getSenderInformation($store_id = null)
     {
         return array(
-            'name1' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_NAME),
-            'street' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_STREET),
-            'houseNo' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_STREETNUMBER),
-            'country' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_COUNTRY),
-            'zipCode' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_ZIPCODE),
-            'city' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_CITY)
+            'name1' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_NAME, $store_id),
+            'street' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_STREET, $store_id),
+            'houseNo' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_STREETNUMBER, $store_id),
+            'country' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_COUNTRY, $store_id),
+            'zipCode' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_ZIPCODE, $store_id),
+            'city' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_CITY, $store_id)
         );
     }
 
@@ -408,7 +408,8 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
     {
         $webserviceUrl = $this->_getWebserviceUrl(self::XML_PATH_DPD_URL) . self::WEBSERVICE_SHIPMENT;
         $sendingDepot = $this->_getDepot();
-        $sender = $this->_getSenderInformation();
+        $store_id = $order->getStoreId();
+        $sender = $this->_getSenderInformation($store_id);
 
         $paperFormatSource = Mage::getModel('dpd/system_config_source_paperformat')->toArray();
         $paperFormat = $paperFormatSource[Mage::getStoreConfig(self::XML_PATH_DPD_PAPERFORMAT)];
