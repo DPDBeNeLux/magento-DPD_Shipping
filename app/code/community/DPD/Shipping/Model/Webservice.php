@@ -197,10 +197,10 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
      *
      * @return mixed
      */
-    protected function _getDepot()
+    protected function _getDepot($store_id = null)
     {
         if(!Mage::getSingleton('core/session')->getDpdDepot()){
-            $this->_login();
+            $this->_login($store_id);
         }
 
         return Mage::getSingleton('core/session')->getDpdDepot();
@@ -410,8 +410,8 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
     public function getShippingLabel($recipient, Mage_Sales_Model_Order $order, $shipment, $parcelshop = false)
     {
         $webserviceUrl = $this->_getWebserviceUrl(self::XML_PATH_DPD_URL) . self::WEBSERVICE_SHIPMENT;
-        $sendingDepot = $this->_getDepot();
-        $store_id = $order->getStoreId();
+		$store_id = $order->getStoreId();
+        $sendingDepot = $this->_getDepot($store_id);
         $sender = $this->_getSenderInformation($store_id);
 
         $paperFormatSource = Mage::getModel('dpd/system_config_source_paperformat')->toArray();
