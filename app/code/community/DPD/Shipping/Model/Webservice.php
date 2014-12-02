@@ -41,7 +41,7 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
     /**
      * Path to Shipment webservice wsdl.
      */
-    CONST WEBSERVICE_SHIPMENT = 'ShipmentService/V2_0/?wsdl';
+    CONST WEBSERVICE_SHIPMENT = 'ShipmentService/V3_1/?wsdl';
 
     /**
      * Product type for shipmentservice, should be always 'CL' as instructed by DPD.
@@ -374,7 +374,10 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
         $sender = $this->_getSenderInformation();
 
         $parameters = array(
-            'paperFormat' => self::SHIPMENTSERVICE_RETURN_PAPERFORMAT,
+            'printOptions' => array(
+                'printerLanguage' => 'PDF',
+                'paperFormat' => self::SHIPMENTSERVICE_RETURN_PAPERFORMAT
+            ),
             'order' => array(
                 'generalShipmentData' => array(
                     'sendingDepot' => $sendingDepot,
@@ -443,7 +446,10 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
             $weight = $shipment->getTotalWeight() * Mage::getStoreConfig(self::XML_PATH_DPD_WEIGHTUNIT);
         }
         $parameters = array(
-            'paperFormat' => $paperFormat,
+            'printOptions' => array(
+                'printerLanguage' => 'PDF',
+                'paperFormat' => $paperFormat
+            ),
             'order' => array(
                 'generalShipmentData' => array(
                     'mpsCustomerReferenceNumber1' => $order->getIncrementId(),
