@@ -167,6 +167,11 @@ class DPD_Shipping_Model_Adminhtml_Dpdgrid extends Mage_Core_Model_Abstract
                 if (count($shippingCollection)) {
                     foreach ($shippingCollection as $shipment) {
                         if ($shipment->getDpdLabelPath() != "" && file_exists(Mage::getBaseDir('media') . "/dpd/orderlabels/" . $shipment->getDpdLabelPath()) && $shipment->getDpdLabelPath() != ".pdf") {
+							if(!$shipment->getEmailSent()){
+								$shipment->sendEmail(true);
+								$shipment->setEmailSent(true);
+								$shipment->save();                          
+							}
                             $labelPdfArray[] = Mage::getBaseDir('media') . "/dpd/orderlabels/" . $shipment->getDpdLabelPath();
                             $exported = true;
                         }
