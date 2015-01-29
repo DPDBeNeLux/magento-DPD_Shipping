@@ -457,6 +457,25 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
                 ),
                 'productAndServiceData' => $productAndServiceData
             ));
+            
+        if (in_array($recipient['country'], array("US", "BR", "JP"))){
+            $international = array(
+                'parcelType' => false,
+                'customsAmount' => round(($order->getBaseTotalDue() * 100), 0), // Total value of order
+                'customsCurrency' => 'EUR', // Customs currency
+                'customsTerms' => 'DAP', // !!! Be sure to check this
+                'customsContent' => 'Contents of parcel', // Describe the content of parcel (35chars)
+                'linehaul' => 'AI', // AI = AIR, RO = ROAD
+                'commercialInvoiceConsignee' => array( // Invoicing address
+                    'name1' => $order->getBillingAddress()->getName(),
+                    'street' => $order->getBillingAddress()->getStreetFull(), //max 35
+                    'country' => $order->getBillingAddress()->getCountry(),
+                    'zipCode' => $order->getBillingAddress()->getPostcode(),
+                    'city' => $order->getBillingAddress()->getCity()
+                )
+            )
+            $parameters['order']['parcels']['international'] = $international;
+        }
 
         $result = $this->_webserviceCall($webserviceUrl, 'storeOrders', $parameters);
         return $result->orderResult;
