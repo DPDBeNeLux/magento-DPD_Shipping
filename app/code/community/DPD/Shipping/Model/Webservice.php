@@ -112,6 +112,16 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
      * XML path to configuration setting for weight unit to send to webservice;
      */
     CONST XML_PATH_DPD_WEIGHTUNIT = 'shipping/dpdclassic/weight_unit';
+		
+		/**
+     * XML path to configuration setting for predict service.
+     */
+    CONST XML_PATH_DPD_PREDICT = 'carriers/dpdclassic/predict';
+		
+		/**
+     * XML path to configuration setting for saterday delivery service.
+     */
+    CONST XML_PATH_DPD_SATURDAYDELIVERY = 'carriers/dpdclassic/saturdaydelivery';
 
     /**
      * XML path to configuration setting for the maximum number of parcelshops that should be returned by the webservice.
@@ -322,6 +332,16 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
             return $result;
         }
     }
+		
+		protected function _predictEnabled(Mage_Sales_Model_Order $order)
+		{
+			return Mage::getStoreConfig(self::XML_PATH_DPD_PREDICT);
+		}
+		
+		protected function _saturdayDeliveryEnabled(Mage_Sales_Model_Order $order)
+		{
+			return Mage::getStoreConfig(self::XML_PATH_DPD_SATURDAYDELIVERY);
+		}
 
     /**
      * Returns if the login webservice works.
@@ -428,12 +448,19 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
                 ));
         } else {
             $productAndServiceData = array(
-                'orderType' => self::SHIPMENTSERVICE_ORDERTYPE,
-                'predict' => array(
-                    'channel' => 1, //email
-                    'value' => $order->getCustomerEmail(),
-                    'language' => $language
-                ));
+                'orderType' => self::SHIPMENTSERVICE_ORDERTYPE
+						);
+						if ($this->_saturdayDeliveryEnabled($order)){
+								$productAndServiceData['saturdayDelivery'] = 'true';
+						} else {
+								if ($this->_predictEnabled($order)){
+										$productAndServiceData['predict'] = array(
+												'channel' => 1, //email
+												'value' => $order->getCustomerEmail(),
+												'language' => $language
+										);
+								}
+						}
         }
         if(Mage::getStoreConfig(self::XML_PATH_DPD_WEIGHTUNIT) == ""){
             $weight = $shipment->getTotalWeight() * 100;
