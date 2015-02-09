@@ -138,7 +138,7 @@ class DPD_Shipping_Model_Adminhtml_Dpdgrid extends Mage_Core_Model_Abstract
         }
         $labelWebserviceCallback = Mage::getSingleton('dpd/webservice')->getShippingLabel($recipient, $order, $shipment, $parcelshop);
 
-        if ($labelWebserviceCallback) {
+        if ($labelWebserviceCallback && $labelWebserviceCallback->parcellabelsPDF != "") {
             Mage::helper('dpd')->generatePdfAndSave($labelWebserviceCallback->parcellabelsPDF, 'orderlabels', $order->getIncrementId() . "-" . $labelWebserviceCallback->shipmentResponses->parcelInformation->parcelLabelNumber);
             return $order->getIncrementId() . "-" . $labelWebserviceCallback->shipmentResponses->parcelInformation->parcelLabelNumber;
         } else {
