@@ -1,0 +1,21 @@
+## Modman file for DPD Shipping for magento
+app/code/community/DPD/Shipping/ app/code/community/DPD/Shipping/
+app/design/adminhtml/default/default/layout/dpd/shipping.xml app/design/adminhtml/default/default/layout/dpd/shipping.xml
+app/design/adminhtml/default/default/template/dpd/ app/design/adminhtml/default/default/template/dpd/
+app/design/frontend/base/default/layout/dpd_shipping.xml app/design/frontend/base/default/layout/dpd_shipping.xml
+app/design/frontend/base/default/template/dpd/ app/design/frontend/base/default/template/dpd/
+app/etc/modules/zDPD_Shipping.xml app/etc/modules/zDPD_Shipping.xml
+app/locale/de_DE/DPD_Shipping.csv app/locale/de_DE/DPD_Shipping.csv
+app/locale/de_DE/template/email/sales/dpd_returnlabel.html app/locale/de_DE/template/email/sales/dpd_returnlabel.html
+app/locale/en_US/DPD_Shipping.csv app/locale/en_US/DPD_Shipping.csv
+app/locale/en_US/template/email/sales/dpd_returnlabel.html app/locale/en_US/template/email/sales/dpd_returnlabel.html
+app/locale/fr_FR/DPD_Shipping.csv app/locale/fr_FR/DPD_Shipping.csv
+app/locale/fr_FR/template/email/sales/dpd_returnlabel.html app/locale/fr_FR/template/email/sales/dpd_returnlabel.html
+app/locale/nl_NL/DPD_Shipping.csv app/locale/nl_NL/DPD_Shipping.csv
+app/locale/nl_NL/template/email/sales/dpd_returnlabel.html app/locale/nl_NL/template/email/sales/dpd_returnlabel.html
+js/dpd/onestepcheckout_shipping.js js/dpd/onestepcheckout_shipping.js
+js/dpd/shipping.js js/dpd/shipping.js
+js/dpd/window/shipping.js js/dpd/window/shipping.js
+skin/adminhtml/default/default/dpd/returnlabel/instructions.pdf skin/adminhtml/default/default/dpd/returnlabel/instructions.pdf
+skin/frontend/base/default/css/dpd/ skin/frontend/base/default/css/dpd/
+skin/frontend/base/default/images/dpd/ skin/frontend/base/default/images/dpd/
