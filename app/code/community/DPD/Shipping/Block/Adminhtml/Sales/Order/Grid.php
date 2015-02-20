@@ -34,12 +34,17 @@ class DPD_Shipping_Block_Adminhtml_Sales_Order_Grid extends Mage_Adminhtml_Block
     {
         $collection = Mage::getResourceModel('sales/order_grid_collection');
         $collection->getSelect()->join(Mage::getConfig()->getTablePrefix() . 'sales_flat_order as sfo', 'sfo.entity_id=`main_table`.entity_id', array(
-            'shipping_method' => 'shipping_method',
-            'total_qty_ordered' => 'ROUND(total_qty_ordered,0)',
-            'dpd_label_exported' => 'dpd_label_exported',
-            'dpd_label_exists' => 'dpd_label_exists'
+            'shipping_method' => 'sfo.shipping_method',
+            'total_qty_ordered' => 'ROUND(sfo.total_qty_ordered,0)',
+            'dpd_label_exported' => 'sfo.dpd_label_exported',
+            'dpd_label_exists' => 'sfo.dpd_label_exists'
         ));
-        $collection->addAttributeToFilter('shipping_method', array('like' => '%dpd%'));
+<<<<<<< HEAD
+        //$collection->addAttributeToFilter('shipping_method', array('like' => '%dpd%'));
+=======
+		
+        $collection->addAttributeToFilter('`sfo`.`shipping_method`', array('like' => '%dpd%'));
+>>>>>>> a7ea474ac6f77eef02f0862b779501c4a38067ce
         $this->setCollection($collection);
         parent::_prepareCollection();
         return $this;
