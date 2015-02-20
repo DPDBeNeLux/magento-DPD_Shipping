@@ -42,6 +42,7 @@ class DPD_Shipping_Model_Observer
      */
     public function checkout_controller_onepage_save_shipping_method($observer)
     {
+				/*
         $quote = Mage::getSingleton('checkout/session')->getQuote();
         $address = $quote->getShippingAddress();
         if ($address->getShippingMethod() == "dpdparcelshops_dpdparcelshops") {
@@ -56,6 +57,7 @@ class DPD_Shipping_Model_Observer
                 ->setCountryId($quote->getDpdCountry())
                 ->save();
         }
+				*/
     }
 
     /**
@@ -111,10 +113,13 @@ class DPD_Shipping_Model_Observer
      */
     public function checkout_submit_all_after($observer)
     {
-        if (Mage::helper('dpd')->getIsOnestepCheckout()) {
-            $quote = Mage::getSingleton('checkout/session')->getQuote();
-            $address = $quote->getShippingAddress();
-            if ($address->getShippingMethod() == "dpdparcelshops_dpdparcelshops" && (bool)$quote->getDpdSelected()) {
+        //if (Mage::helper('dpd')->getIsOnestepCheckout()) {
+				    $quote = Mage::getSingleton('checkout/session')->getQuote();
+						Mage::helper('dpd')->log("SHIPPING METHOD: ".$quote->getShippingAddress()->getShippingMethod() , Zend_Log::DEBUG);
+            if ($quote->getShippingAddress()->getShippingMethod() == "dpdparcelshops_dpdparcelshops" && (bool)$quote->getDpdSelected()) {
+								Mage::helper('dpd')->log("PARCELSHOP SELECTED, wil overwrite shipping address", Zend_Log::DEBUG);
+								$order = $observer->getEvent()->getOrder();
+								$address = $order->getShippingAddress();
                 $address->unsetAddressId()
                     ->unsetTelephone()
                     ->setSaveInAddressBook(0)
@@ -125,9 +130,10 @@ class DPD_Shipping_Model_Observer
                     ->setPostcode($quote->getDpdZipcode())
                     ->setCountryId($quote->getDpdCountry())
                     ->save();
+									Mage::helper('dpd')->log($address->getStreet(), Zend_Log::DEBUG);
             }
             $quote->setDpdSelected(0);
-        }
+        //}
     }
 
     /**
