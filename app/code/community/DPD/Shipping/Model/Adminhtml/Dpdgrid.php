@@ -28,7 +28,7 @@ class DPD_Shipping_Model_Adminhtml_Dpdgrid extends Mage_Core_Model_Abstract
             $dpdused = false;
             foreach ($shipmentCollection as $shipment) {
                 foreach ($shipment->getAllTracks() as $tracker) {
-                    if (strpos($tracker->getCarrierCode(), 'dpd') !== false) {
+                    if (true){ //(strpos($tracker->getCarrierCode(), 'dpd') !== false) {
                         $labelName = $this->_generateLabelAndReturnLabel($order, $shipment);
                         if (!$labelName) {
                             $message = Mage::helper('dpd')->__("Something went wrong while processing order %s, please check your error logs.", $order->getIncrementId());
