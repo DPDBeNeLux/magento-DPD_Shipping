@@ -12,8 +12,8 @@
 .parcelshopwrapper .extrainfocontent{margin-right:20px; clear:left;}
 .parcelshopwrapper .extrainfowrapper{position: absolute; height:auto; padding: 10px; background-color: white; border: 1px solid black; top: -10px;margin-left:20px;}
 .parcelshopwrapper .extrainfowrapper .day{font-weight:bold;}
-.parcelshopwrapper .parcelshoplogo{margin-right:10px;width:100px; height:82px;}
-.parcelshopwrapper .parcelshoplogo.bubble{margin-right:5px;width:95px; height:79px;}
+.parcelshopwrapper .parcelshoplogo{margin-right:10px;width:100px; height:100px;}
+.parcelshopwrapper .parcelshoplogo.bubble{margin-right:5px;width:95px; height:95px;}
 .parcelshopwrapper .daywrapper{margin-right:25px;}
 .parcelshopwrapper .pointer{cursor:pointer;}
 .parcelshopwrapper  a.parcelshoplink{color:#666; text-decoration: none;text-transform: uppercase;padding-top:5px;}

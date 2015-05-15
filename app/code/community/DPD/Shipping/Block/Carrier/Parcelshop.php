@@ -69,6 +69,7 @@ class DPD_Shipping_Block_Carrier_Parcelshop extends Mage_Core_Block_Template
         $center = explode(",", Mage::Helper('dpd')->getGoogleMapsCenter());
         $this->_configArray["saveParcelUrl"] = $this->getUrl('dpd/ajax/saveparcel', array('_secure' => true));
         $this->_configArray["invalidateParcelUrl"] = $this->getUrl('dpd/ajax/invalidateparcel', array('_secure' => true));
+        $this->_configArray["unsetParcelUrl"] = $this->getUrl('dpd/ajax/unsetparcel', array('_secure' => true));
         $this->_configArray["windowParcelUrl"] = $this->getUrl('dpd/ajax/windowindex', array('_secure' => true));
         $this->_configArray["ParcelUrl"] = $this->getUrl('dpd/ajax/index', array('_secure' => true));
         $this->_configArray["gmapsCenterlat"] = $center[0];
@@ -102,7 +103,7 @@ class DPD_Shipping_Block_Carrier_Parcelshop extends Mage_Core_Block_Template
             $html .= '<li>' . $shop->zipCode . ' ' . $shop->city . '</li></ul>';
             $html .= '<a id="shop' . $shop->parcelShopId . '" class="parcelshoplink" href="#">';
             $html .= '<img src="' . Mage::getDesign()->getSkinUrl('images/dpd/icon_route.png') . '" alt="route" width="16" height="16" style="margin-right: 5px; margin-bottom:10px;">';
-            $html .= '<strong>' . Mage::helper('dpd')->__('Ship to this ParcelShop.') . '</strong>';
+            $html .= '<strong>' . Mage::helper('dpd')->__('Ship to this Pickup point.') . '</strong>';
             $html .= '</a>';
             $html .= '</div>';
             $this->_configArray['shop' . $shop->parcelShopId]['company'] = trim($shop->company);
@@ -184,7 +185,7 @@ class DPD_Shipping_Block_Carrier_Parcelshop extends Mage_Core_Block_Template
             $html .= '<li>' . $specialShop->getParcelshopPostCode() . ' ' . $specialShop->getParcelshopTown() . '</li></ul>';
             $html .= '<a id="shop' . $specialShop->getParcelshopDelicomId() . '" class="parcelshoplink" href="#">';
             $html .= '<img src="' . Mage::getDesign()->getSkinUrl('images/dpd/icon_route.png') . '" alt="route" width="16" height="16" style="margin-right: 5px; margin-bottom:10px;">';
-            $html .= '<strong>' . Mage::helper('dpd')->__('Ship to this ParcelShop.') . '</strong>';
+            $html .= '<strong>' . Mage::helper('dpd')->__('Ship to this Pickup point.') . '</strong>';
             $html .= '</a>';
             $html .= '</div>';
             $this->_configArray['shop' . $specialShop->getParcelshopDelicomId()]['company'] = trim($specialShop->getParcelshopPudoName());
@@ -274,7 +275,7 @@ class DPD_Shipping_Block_Carrier_Parcelshop extends Mage_Core_Block_Template
                         <tbody>
                             <tr class="pointer">
                                 <td id="' . 'shop' . ($special ? $shop->getParcelshopDelicomId() : $shop->parcelShopId) . '" class="parcelshoplink" onclick="window.dpdShipping.saveParcelShop(event);" style="width: 25px;"><img src="' . Mage::getDesign()->getSkinUrl('images/dpd/icon_route.png') . '" alt="route" width="16" height="16" ></td>
-                                <td id="' . 'shop' . ($special ? $shop->getParcelshopDelicomId() : $shop->parcelShopId) . '" class="parcelshoplink" onclick="window.dpdShipping.saveParcelShop(event);"><strong>' . Mage::helper('dpd')->__('Ship to this ParcelShop.') . '</strong></td>
+                                <td id="' . 'shop' . ($special ? $shop->getParcelshopDelicomId() : $shop->parcelShopId) . '" class="parcelshoplink" onclick="window.dpdShipping.saveParcelShop(event);"><strong>' . Mage::helper('dpd')->__('Ship to this Pickup point.') . '</strong></td>
                             </tr>
                         </tbody>
                     </table>
