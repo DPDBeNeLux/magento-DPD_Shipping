@@ -167,7 +167,7 @@ class DPD_Shipping_Model_Carrier_Dpdparcelshops extends Mage_Shipping_Model_Carr
         $tracking_status->setTracking($tracking_number);
         $tracking_status->addData(
             array(
-                'status' => '<a target="_blank" href="' . "http://tracking.dpd.de/cgi-bin/delistrack?typ=32&lang=" . $localeExploded[0] . "&pknr=" . $tracking_numberExploded[1] . "&var=" . Mage::getStoreConfig('shipping/dpdclassic/userid') . '">' . Mage::helper('dpd')->__('Track this shipment') . '</a>'
+                'status' => '<a target="_blank" href="' . "https://tracking.dpd.de/parcelstatus?locale=" . $locale . "&query=" . $tracking_numberExploded[1] . '">' . Mage::helper('dpd')->__('Track this shipment') . '</a>'
             )
         );
         $tracking_result->append($tracking_status);
