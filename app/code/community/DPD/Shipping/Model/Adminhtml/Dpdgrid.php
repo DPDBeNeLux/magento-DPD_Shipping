@@ -40,7 +40,7 @@ class DPD_Shipping_Model_Adminhtml_Dpdgrid extends Mage_Core_Model_Abstract
                             $localeCode = explode('_', $locale);
                             $labelNameCode = explode('-', $labelName);
                             $shipment->setDpdLabelPath($labelName . ".pdf");
-                            $shipment->setDpdTrackingUrl('<a target="_blank" href="' . "http://tracking.dpd.de/cgi-bin/delistrack?typ=32&lang=" . $localeCode[0] . "&pknr=" . $labelNameCode[1] . "&var=" . Mage::getStoreConfig('shipping/dpd_classic/userid') . '">' . Mage::helper('dpd')->__('Track this shipment') . '</a>');
+                            $shipment->setDpdTrackingUrl('<a target="_blank" href="' . "https://tracking.dpd.de/parcelstatus?locale=" . $locale . "&query=" . $labelNameCode[1] . '">' . Mage::helper('dpd')->__('Track this shipment') . '</a>');
                             $tracker->setData('number', $labelName);
                             $transactionSave = Mage::getModel('core/resource_transaction')
                                 ->addObject($shipment)
