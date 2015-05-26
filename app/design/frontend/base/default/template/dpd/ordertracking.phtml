@@ -20,7 +20,7 @@ $order = Mage::getModel('sales/order')->load($orderId);
 $arrayToReplace = array("$1", "$2", "$3");
 $localeExploded = explode('_',Mage::app()->getLocale()->getLocaleCode());
 $replaceArray = array($order->getIncrementId(),$localeExploded[0],Mage::getStoreConfig('shipping/dpdclassic/userid'));
-$url = "http://tracking.dpd.de/cgi-bin/delistrack?typ=5&lang=$2&pknr=$1&var=$3";
+$url = "https://tracking.dpd.de/parcelstatus?locale=en_BE&query=$1";//"http://tracking.dpd.de/cgi-bin/delistrack?typ=5&lang=$2&pknr=$1&var=$3";
 $parsedUrl = str_replace($arrayToReplace,$replaceArray,$url);
 ?>
 <?php if(strpos(serialize($this->getTrackingInfo()), 'DPD' ) !== FALSE): ?>
