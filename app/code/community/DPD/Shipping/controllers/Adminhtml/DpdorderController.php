@@ -80,6 +80,20 @@ class DPD_Shipping_Adminhtml_DpdorderController extends Mage_Adminhtml_Controlle
         $this->_redirect('adminhtml/sales_order/view/order_id/' . $orderId);
         return $this;
     }
+    
+    public function generateLabelAction()
+    {
+        $orderId = $this->getRequest()->getParam('order_id');
+        try {
+            Mage::getModel('dpd/adminhtml_dpdgrid')->generateAndCompleteOrder($orderId);
+        } catch (Exception $e) {
+            Mage::getSingleton('core/session')->addError($e->getMessage());
+            $this->_redirect('adminhtml/sales_order/view/order_id/' . $orderId);
+            return $this;
+        }
+        $this->_redirect('adminhtml/sales_order/view/order_id/' . $orderId);
+        return $this;
+    }
 
     /**
      * Call this to send an email with the dpd template.
