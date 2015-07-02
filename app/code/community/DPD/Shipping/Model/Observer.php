@@ -69,6 +69,11 @@ class DPD_Shipping_Model_Observer
         $block = $observer->getBlock();
         if ($block instanceof Mage_Adminhtml_Block_Sales_Order_View && $block->getRequest()->getControllerName() == 'sales_order') {
             $orderId = Mage::app()->getRequest()->getParam('order_id');
+            $block->addButton('generate_dpd_label', array(
+                'label' => Mage::helper('dpd')->__('Generate DPD Label'),
+                'onclick' => 'setLocation(\'' . Mage::helper("adminhtml")->getUrl('adminhtml/dpdorder/generateLabel/order_id/' . $orderId) . '\')',
+                'class' => 'scalable save'
+            ));
             $block->addButton('print_retour_label', array(
                 'label' => Mage::helper('dpd')->__('DPD Return Label'),
                 'onclick' => 'setLocation(\'' . Mage::helper("adminhtml")->getUrl('adminhtml/dpdorder/generateRetourLabel/order_id/' . $orderId) . '\')',
@@ -82,11 +87,6 @@ class DPD_Shipping_Model_Observer
             $orderId = $shipment->getOrderId();
             $order = Mage::getModel('sales/order')->load($orderId);
             //if (strpos($order->getShippingMethod(), 'dpd') !== false) {
-                $block->addButton('generate_dpd_label', array(
-                    'label' => Mage::helper('dpd')->__('Generate DPD Label'),
-                    'onclick' => 'setLocation(\'' . Mage::helper("adminhtml")->getUrl('adminhtml/dpdorder/generateLabel/order_id/' . $orderId) . '\')',
-                    'class' => 'scalable save'
-                ));
                 $block->addButton('download_dpd_label', array(
                     'label' => Mage::helper('dpd')->__('Download DPD Label'),
                     'onclick' => 'setLocation(\'' . Mage::helper("adminhtml")->getUrl('adminhtml/dpdorder/downloadDpdLabel/shipment_id/' . $shipmentId) . '\')',
