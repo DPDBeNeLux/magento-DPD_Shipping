@@ -79,14 +79,20 @@ class DPD_Shipping_Model_Observer
         if ($block instanceof Mage_Adminhtml_Block_Sales_Order_Shipment_View && $block->getRequest()->getControllerName() == "sales_order_shipment") {
             $shipment = Mage::registry('current_shipment');
             $shipmentId = $shipment->getId();
-            $order = Mage::getModel('sales/order')->load($shipment->getOrderId());
-            if (strpos($order->getShippingMethod(), 'dpd') !== false) {
+            $orderId = $shipment->getOrderId();
+            $order = Mage::getModel('sales/order')->load($orderId);
+            //if (strpos($order->getShippingMethod(), 'dpd') !== false) {
+                $block->addButton('generate_dpd_label', array(
+                    'label' => Mage::helper('dpd')->__('Generate DPD Label'),
+                    'onclick' => 'setLocation(\'' . Mage::helper("adminhtml")->getUrl('adminhtml/dpdorder/generateLabel/order_id/' . $orderId) . '\')',
+                    'class' => 'scalable save'
+                ));
                 $block->addButton('download_dpd_label', array(
                     'label' => Mage::helper('dpd')->__('Download DPD Label'),
                     'onclick' => 'setLocation(\'' . Mage::helper("adminhtml")->getUrl('adminhtml/dpdorder/downloadDpdLabel/shipment_id/' . $shipmentId) . '\')',
                     'class' => 'scalable save'
                 ));
-            }
+            //}
         }
     }
 
