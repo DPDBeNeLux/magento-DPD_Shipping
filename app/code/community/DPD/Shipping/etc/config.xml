@@ -196,8 +196,8 @@
                 <active>1</active>
                 <log_level>7</log_level>
                 <model>dpd/carrier_dpdparcelshops</model>
-                <title>DPD ParcelShops</title>
-                <name>Delivery at ParcelShops</name>
+                <title>Pickup parcelshop</title>
+                <name>Delivery at a Pickup parcelshop</name>
                 <sort_order>0</sort_order>
                 <default>0</default>
                 <ratetype>0</ratetype>
