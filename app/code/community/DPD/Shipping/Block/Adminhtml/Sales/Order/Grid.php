@@ -40,7 +40,7 @@ class DPD_Shipping_Block_Adminhtml_Sales_Order_Grid extends Mage_Adminhtml_Block
             'dpd_label_exists' => 'sfo.dpd_label_exists'
         ));
 		
-        $collection->addAttributeToFilter('`sfo`.`shipping_method`', array('like' => '%dpd%'));
+        $collection->addAttributeToFilter('sfo.shipping_method', array('like' => '%dpd%'));
         $this->setCollection($collection);
         parent::_prepareCollection();
         return $this;
