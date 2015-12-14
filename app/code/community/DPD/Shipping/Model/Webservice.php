@@ -449,18 +449,17 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
         } else {
             $productAndServiceData = array(
                 'orderType' => self::SHIPMENTSERVICE_ORDERTYPE
-						);
-						if ($this->_saturdayDeliveryEnabled($order)){
-								$productAndServiceData['saturdayDelivery'] = 'true';
-						} else {
-								if ($this->_predictEnabled($order)){
-										$productAndServiceData['predict'] = array(
-												'channel' => 1, //email
-												'value' => $order->getCustomerEmail(),
-												'language' => $language
-										);
-								}
-						}
+	    );
+	    if ($this->_saturdayDeliveryEnabled($order)){
+		$productAndServiceData['saturdayDelivery'] = 'true';
+	    }
+	    if ($this->_predictEnabled($order)){
+	        $productAndServiceData['predict'] = array(
+		    'channel' => 1, //email
+		    'value' => $order->getCustomerEmail(),
+		    'language' => $language
+		);
+	    }
         }
         if(Mage::getStoreConfig(self::XML_PATH_DPD_WEIGHTUNIT) == ""){
             $weight = $shipment->getTotalWeight() * 100;
