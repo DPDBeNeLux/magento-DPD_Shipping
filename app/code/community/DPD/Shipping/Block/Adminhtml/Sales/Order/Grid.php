@@ -39,8 +39,8 @@ class DPD_Shipping_Block_Adminhtml_Sales_Order_Grid extends Mage_Adminhtml_Block
             'dpd_label_exported' => 'sfo.dpd_label_exported',
             'dpd_label_exists' => 'sfo.dpd_label_exists'
         ));
-		
-        $collection->addAttributeToFilter('`sfo`.`shipping_method`', array('like' => '%dpd%'));
+	
+        $collection->addAttributeToFilter('sfo.shipping_method', array('like' => '%dpd%'));
         $this->setCollection($collection);
         parent::_prepareCollection();
         return $this;
@@ -214,7 +214,7 @@ class DPD_Shipping_Block_Adminhtml_Sales_Order_Grid extends Mage_Adminhtml_Block
      */
     protected function _prepareMassaction()
     {
-        $this->setMassactionIdField('`main_table`.entity_id');
+        $this->setMassactionIdField('main_table.entity_id');
         $this->getMassactionBlock()->setFormFieldName('entity_id');
         $this->getMassactionBlock()->addItem('generateAndComplete', array(
             'label' => Mage::helper('dpd')->__('Generate Label and Complete'),
