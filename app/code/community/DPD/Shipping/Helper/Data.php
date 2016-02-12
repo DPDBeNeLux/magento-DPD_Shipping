@@ -61,7 +61,7 @@ class DPD_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
         $quote = Mage::getModel('checkout/cart')->getQuote();
         $block = Mage::app()->getLayout()->createBlock('dpd/carrier_parcelshop');
         $block->setShowUrl(true);
-        preg_match('!<label(.*?)for="(.*?)parcelshops"(.*?)>(.*?)<\/label>!s', $html, $matches);
+        preg_match('!<label.*?for="(.*?)parcelshops".*?>(.*?)<\/label>!s', $html, $matches);
         if (isset($matches[0])) {
             if ($quote->getDpdSelected()) {
                 $html = str_replace($matches[0],
