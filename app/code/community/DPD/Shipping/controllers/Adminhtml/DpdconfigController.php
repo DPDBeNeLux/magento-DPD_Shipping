@@ -50,4 +50,9 @@ class DPD_Shipping_Adminhtml_DpdconfigController extends Mage_Adminhtml_Controll
         $content = $gridBlock->getCsvFile();
         $this->_prepareDownloadResponse($fileName, $content);
     }
+    
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed( 'sales/dpd' );
+    }
 }

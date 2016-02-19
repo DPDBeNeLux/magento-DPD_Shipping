@@ -219,4 +219,9 @@ class DPD_Shipping_Adminhtml_DpdorderController extends Mage_Adminhtml_Controlle
         Mage::getSingleton('core/session')->addSuccess($message);
         Mage::app()->getResponse()->setBody($websiteId);
     }
+    
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed( 'sales/dpd' );
+    }
 }
