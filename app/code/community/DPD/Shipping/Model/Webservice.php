@@ -374,7 +374,10 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
         $sender = $this->_getSenderInformation();
 
         $parameters = array(
-            'paperFormat' => self::SHIPMENTSERVICE_RETURN_PAPERFORMAT,
+            'printOptions' => array(
+                'printerLanguage' => 'PDF',
+                'paperFormat' => self::SHIPMENTSERVICE_RETURN_PAPERFORMAT
+            ),
             'order' => array(
                 'generalShipmentData' => array(
                     'sendingDepot' => $sendingDepot,
@@ -442,7 +445,10 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
             $weight = $shipment->getTotalWeight() * Mage::getStoreConfig(self::XML_PATH_DPD_WEIGHTUNIT);
         }
         $parameters = array(
-            'paperFormat' => $paperFormat,
+			'printOptions' => array(
+                'printerLanguage' => 'PDF',
+                'paperFormat' => $paperFormat
+            ),
             'order' => array(
                 'generalShipmentData' => array(
                     'mpsCustomerReferenceNumber1' => $order->getIncrementId(),
@@ -453,11 +459,11 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
                 ),
                 'parcels' => array(
                     'customerReferenceNumber1' => $shipment->getIncrementId(),
-                    'weight' => round($weight,0)
+                    'Weight' => round($weight,0)
                 ),
                 'productAndServiceData' => $productAndServiceData
             ));
-
+		
         $result = $this->_webserviceCall($webserviceUrl, 'storeOrders', $parameters);
         return $result->orderResult;
     }
