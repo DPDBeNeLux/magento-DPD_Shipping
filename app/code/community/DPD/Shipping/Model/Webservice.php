@@ -459,7 +459,7 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
                 ),
                 'parcels' => array(
                     'customerReferenceNumber1' => $shipment->getIncrementId(),
-                    'Weight' => round($weight,0)
+                    'weight' => round($weight,0)
                 ),
                 'productAndServiceData' => $productAndServiceData
             ));
