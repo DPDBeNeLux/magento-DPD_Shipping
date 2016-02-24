@@ -24,7 +24,7 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
     CONST MESSAGE_LANGUAGE = 'en_US';
 
     /**
-     * Athentication namespace for the authentication header in soap requests.
+     * Authentication namespace for the authentication header in soap requests.
      */
     CONST AUTHENTICATION_NAMESPACE = 'http://dpd.com/common/service/types/Authentication/2.0';
 
@@ -294,13 +294,14 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
 
             } catch (SoapFault $soapE) {
                 if (isset($soapE->detail)) {
-                    if ($soapE->detail->authenticationFault->errorCode == 'LOGIN_5') {
-                        Mage::helper('dpd')->log('Athentication token expired, retrying...', Zend_Log::INFO);
+                    if (isset($soapE->detail->authenticationFault->errorCode)
+						&& $soapE->detail->authenticationFault->errorCode == 'LOGIN_7') {
+                        Mage::helper('dpd')->log('Authentication token expired, retrying...', Zend_Log::INFO);
                         $this->_login();
                     } else {
                         Mage::helper('dpd')->log('Webservice ' . $method . ' failed:', Zend_Log::ERR);
                         Mage::helper('dpd')->log($soapE->detail, Zend_Log::ERR);
-                        Mage::getSingleton('adminhtml/session')->addError($soapE->detail->authenticationFault->errorMessage);
+                        Mage::getSingleton('adminhtml/session')->addError('Something went wrong with the webservice, please check the log files.');
                         return false;
                     }
                 } else {
@@ -316,7 +317,7 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
         }
 
         if ($stop == false) {
-            Mage::helper('dpd')->log('Athentication went wrong!', Zend_Log::ERR);
+            Mage::helper('dpd')->log('Authentication went wrong!', Zend_Log::ERR);
             return false;
         } else {
             return $result;
@@ -465,6 +466,6 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
             ));
 		
         $result = $this->_webserviceCall($webserviceUrl, 'storeOrders', $parameters);
-        return $result->orderResult;
+        return isset($result->orderResult) ? $result->orderResult : false;
     }
 }
