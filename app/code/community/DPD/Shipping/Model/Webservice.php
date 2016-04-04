@@ -373,6 +373,7 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
         $webserviceUrl = $this->_getWebserviceUrl(self::XML_PATH_DPD_URL) . self::WEBSERVICE_SHIPMENT;
         $sendingDepot = $this->_getDepot();
         $sender = $this->_getSenderInformation();
+        $recipient['zipCode'] = str_replace(' ', '', $recipient['zipCode']);
 
         $parameters = array(
             'printOptions' => array(
@@ -413,6 +414,7 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
         $webserviceUrl = $this->_getWebserviceUrl(self::XML_PATH_DPD_URL) . self::WEBSERVICE_SHIPMENT;
         $sendingDepot = $this->_getDepot();
         $sender = $this->_getSenderInformation();
+        $recipient['zipCode'] = str_replace(' ', '', $recipient['zipCode']);
 
         $paperFormatSource = Mage::getModel('dpd/system_config_source_paperformat')->toArray();
         $paperFormat = $paperFormatSource[Mage::getStoreConfig(self::XML_PATH_DPD_PAPERFORMAT)];
