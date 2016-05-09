@@ -41,7 +41,7 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
     /**
      * Path to Shipment webservice wsdl.
      */
-    CONST WEBSERVICE_SHIPMENT = 'ShipmentService/V2_0/?wsdl';
+    CONST WEBSERVICE_SHIPMENT = 'ShipmentService/V3_1/?wsdl';
 
     /**
      * Product type for shipmentservice, should be always 'CL' as instructed by DPD.
@@ -139,11 +139,11 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
      *
      * @return mixed
      */
-    protected function _login()
+    protected function _login($store_id = null)
     {
         $webserviceUrl = $this->_getWebserviceUrl(self::XML_PATH_DPD_URL) . self::WEBSERVICE_LOGIN;
-        $delisId = Mage::getStoreConfig(self::XML_PATH_DPD_USERID);
-        $password = Mage::helper('core')->decrypt(Mage::getStoreConfig(self::XML_PATH_DPD_PASSWORD));
+        $delisId = Mage::getStoreConfig(self::XML_PATH_DPD_USERID, $store_id);
+        $password = Mage::helper('core')->decrypt(Mage::getStoreConfig(self::XML_PATH_DPD_PASSWORD, $store_id));
 
         try {
             $client = new SoapClient($webserviceUrl);
@@ -197,10 +197,10 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
      *
      * @return mixed
      */
-    protected function _getDepot()
+    protected function _getDepot($store_id = null)
     {
         if(!Mage::getSingleton('core/session')->getDpdDepot()){
-            $this->_login();
+            $this->_login($store_id);
         }
 
         return Mage::getSingleton('core/session')->getDpdDepot();
@@ -211,10 +211,10 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
      *
      * @return mixed
      */
-    protected function _getAuthToken()
+    protected function _getAuthToken($store_id)
     {
         if(!Mage::getSingleton('core/session')->getDpdAuthToken()){
-            $this->_login();
+            $this->_login($store_id);
         }
         return Mage::getSingleton('core/session')->getDpdAuthToken();
     }
@@ -224,13 +224,13 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
      *
      * @return SOAPHeader
      */
-    protected function _getSoapHeader()
+    protected function _getSoapHeader($store_id = null)
     {
-        $delisId = Mage::getStoreConfig(self::XML_PATH_DPD_USERID);
+        $delisId = Mage::getStoreConfig(self::XML_PATH_DPD_USERID, $store_id);
 
         $soapHeaderBody = array(
             'delisId' => $delisId,
-            'authToken' => $this->_getAuthToken(),
+            'authToken' => $this->_getAuthToken($store_id),
             'messageLanguage' => self::MESSAGE_LANGUAGE
         );
 
@@ -242,15 +242,15 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
      *
      * @return array
      */
-    protected function _getSenderInformation()
+    protected function _getSenderInformation($store_id = null)
     {
         return array(
-            'name1' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_NAME),
-            'street' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_STREET),
-            'houseNo' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_STREETNUMBER),
-            'country' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_COUNTRY),
-            'zipCode' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_ZIPCODE),
-            'city' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_CITY)
+            'name1' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_NAME, $store_id),
+            'street' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_STREET, $store_id),
+            'houseNo' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_STREETNUMBER, $store_id),
+            'country' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_COUNTRY, $store_id),
+            'zipCode' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_ZIPCODE, $store_id),
+            'city' => Mage::getStoreConfig(self::XML_PATH_DPD_SENDER_CITY, $store_id)
         );
     }
 
@@ -263,7 +263,7 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
      * @param $parameters
      * @return mixed
      */
-    protected function _webserviceCall($webserviceUrl, $method, $parameters)
+    protected function _webserviceCall($webserviceUrl, $method, $parameters, $store_id = null)
     {
         $stop = false;
         $count = 0;
@@ -271,7 +271,7 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
         while (!$stop && $count++ < self::MAX_LOGIN_RETRY) {
             try {
                 $client = new SoapClient($webserviceUrl);
-                $soapHeader = $this->_getSoapHeader();
+                $soapHeader = $this->_getSoapHeader($store_id);
                 $client->__setSoapHeaders($soapHeader);
 
                 $result = $client->__soapCall($method, array($parameters));
@@ -374,7 +374,10 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
         $sender = $this->_getSenderInformation();
 
         $parameters = array(
-            'paperFormat' => self::SHIPMENTSERVICE_RETURN_PAPERFORMAT,
+            'printOptions' => array(
+                'printerLanguage' => 'PDF',
+                'paperFormat' => self::SHIPMENTSERVICE_RETURN_PAPERFORMAT
+            ),
             'order' => array(
                 'generalShipmentData' => array(
                     'sendingDepot' => $sendingDepot,
@@ -407,13 +410,14 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
     public function getShippingLabel($recipient, Mage_Sales_Model_Order $order, $shipment, $parcelshop = false)
     {
         $webserviceUrl = $this->_getWebserviceUrl(self::XML_PATH_DPD_URL) . self::WEBSERVICE_SHIPMENT;
-        $sendingDepot = $this->_getDepot();
-        $sender = $this->_getSenderInformation();
+		$store_id = $order->getStoreId();
+        $sendingDepot = $this->_getDepot($store_id);
+        $sender = $this->_getSenderInformation($store_id);
 
         $paperFormatSource = Mage::getModel('dpd/system_config_source_paperformat')->toArray();
         $paperFormat = $paperFormatSource[Mage::getStoreConfig(self::XML_PATH_DPD_PAPERFORMAT)];
 
-        $language = Mage::helper('dpd')->getLanguageFromStore($order->getStoreId());
+        $language = Mage::helper('dpd')->getLanguageFromStore($store_id);
 
         if ($parcelshop) {
             $productAndServiceData = array(
@@ -442,7 +446,10 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
             $weight = $shipment->getTotalWeight() * Mage::getStoreConfig(self::XML_PATH_DPD_WEIGHTUNIT);
         }
         $parameters = array(
-            'paperFormat' => $paperFormat,
+            'printOptions' => array(
+                'printerLanguage' => 'PDF',
+                'paperFormat' => $paperFormat
+            ),
             'order' => array(
                 'generalShipmentData' => array(
                     'mpsCustomerReferenceNumber1' => $order->getIncrementId(),
@@ -458,7 +465,7 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
                 'productAndServiceData' => $productAndServiceData
             ));
 
-        $result = $this->_webserviceCall($webserviceUrl, 'storeOrders', $parameters);
+        $result = $this->_webserviceCall($webserviceUrl, 'storeOrders', $parameters, $store_id);
         return $result->orderResult;
     }
 }
