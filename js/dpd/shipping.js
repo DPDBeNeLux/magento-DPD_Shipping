@@ -105,9 +105,7 @@ DPD.Shipping = Class.create({
         var marker_image = new google.maps.MarkerImage(configForMarkers.gmapsIcon, new google.maps.Size(57, 62), new google.maps.Point(0, 0), new google.maps.Point(0, 31));
         var shadow = new google.maps.MarkerImage(configForMarkers.gmapsIconShadow, new google.maps.Size(85, 55), new google.maps.Point(0, 0), new google.maps.Point(0, 55));
         var customImage = configForMarkers.gmapsCustomIcon;
-        var infowindow = new google.maps.InfoWindow({
-            maxWidth: "400px;"
-        });
+        var infowindow = new google.maps.InfoWindow();
         window.markers = new Array();
         var markerBounds = new google.maps.LatLngBounds();
         $H(configForMarkers).each(function (pair) {
