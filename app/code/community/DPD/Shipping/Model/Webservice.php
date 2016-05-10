@@ -211,7 +211,7 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
      *
      * @return mixed
      */
-    protected function _getAuthToken($store_id)
+    protected function _getAuthToken($store_id = null)
     {
         if(!Mage::getSingleton('core/session')->getDpdAuthToken()){
             $this->_login($store_id);
