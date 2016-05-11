@@ -295,7 +295,7 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
             } catch (SoapFault $soapE) {
                 if (isset($soapE->detail)) {
                     if (isset($soapE->detail->authenticationFault->errorCode)
-						&& $soapE->detail->authenticationFault->errorCode == 'LOGIN_7') {
+			&& ($soapE->detail->authenticationFault->errorCode == 'LOGIN_7' || $soapE->detail->authenticationFault->errorCode == 'LOGIN_6'  )) {
                         Mage::helper('dpd')->log('Authentication token expired, retrying...', Zend_Log::INFO);
                         $this->_login();
                     } else {
