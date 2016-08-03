@@ -367,7 +367,7 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
      * @param $recipient
      * @return mixed
      */
-    public function getReturnLabel($recipient)
+    public function getReturnLabel($recipient, $store_id = null)
     {
         $webserviceUrl = $this->_getWebserviceUrl(self::XML_PATH_DPD_URL) . self::WEBSERVICE_SHIPMENT;
         $sendingDepot = $this->_getDepot();
@@ -393,7 +393,7 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
                 )
             ));
 
-        $result = $this->_webserviceCall($webserviceUrl, 'storeOrders', $parameters);
+        $result = $this->_webserviceCall($webserviceUrl, 'storeOrders', $parameters, $store_id);
         return $result->orderResult;
     }
 
