@@ -54,7 +54,8 @@ class DPD_Shipping_Model_Returnlabels extends Mage_Core_Model_Abstract
                 'city' => $shippingAddress->getCity()
             );
         }
-        $returnlabel = Mage::getSingleton('dpd/webservice')->getReturnLabel($recipient);
+        $store_id = $order->getStoreId();
+        $returnlabel = Mage::getSingleton('dpd/webservice')->getReturnLabel($recipient, $store_id);
         if (!$returnlabel) {
             return false;
         }
