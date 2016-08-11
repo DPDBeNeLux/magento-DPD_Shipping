@@ -215,7 +215,7 @@ class DPD_Shipping_Model_Adminhtml_Dpdgrid extends Mage_Core_Model_Abstract
         }
         if (count($valid_files)) {
             $zip = new ZipArchive();
-            if ($zip->open($destination, $overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::CREATE) !== true) {
+            if ($zip->open($destination, $overwrite ? ZIPARCHIVE::OVERWRITE : ZIPARCHIVE::OVERWRITE | ZIPARCHIVE::CREATE) !== true) {
                 return false;
             }
             foreach ($valid_files as $file) {
