@@ -89,12 +89,40 @@ class DPD_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
             $addressToInsert .= $address->getStreet(2) . " ";
         }
         $addressToInsert .= $address->getPostcode() . " " . $address->getCity() . " " . $address->getCountry();
-        $url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($addressToInsert) . '&sensor=false';
-        $source = file_get_contents($url);
-        $obj = json_decode($source);
-        $LATITUDE = $obj->results[0]->geometry->location->lat;
-        $LONGITUDE = $obj->results[0]->geometry->location->lng;
-        return $LATITUDE . ',' . $LONGITUDE;
+		
+		$cache = Mage::app()->getCache();
+		$previousAddress = $cache->load("last_encoded_address");
+		$previousGeodata = unserialize($cache->load("last_encoded_result"));
+		
+		Mage::helper('dpd')->log('Cached values', Zend_Log::INFO);
+		Mage::helper('dpd')->log($previousAddress, Zend_Log::DEBUG);
+		Mage::helper('dpd')->log($previousGeodata, Zend_Log::DEBUG);
+		
+		if($previousAddress
+			&& $previousGeodata
+			&& $previousAddress == $addressToInsert){
+			Mage::helper('dpd')->log('Using cached geo location data', Zend_Log::INFO);
+			$LATITUDE = $previousGeodata->lat;
+			$LONGITUDE = $previousGeodata->lng;
+			return $LATITUDE . ',' . $LONGITUDE;
+		} else {
+			$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($addressToInsert) . '&sensor=false';
+			$source = file_get_contents($url);
+			$obj = json_decode($source);
+			Mage::helper('dpd')->log($obj, Zend_Log::DEBUG);
+			if(isset($obj->results)
+				&& count($obj->results) > 0){
+				Mage::helper('dpd')->log('Google maps geo-encoding succeeded', Zend_Log::INFO);
+				$cache->save($addressToInsert, "last_encoded_address");
+				$cache->save(serialize($obj->results[0]->geometry->location), "last_encoded_result");
+				$LATITUDE = $obj->results[0]->geometry->location->lat;
+				$LONGITUDE = $obj->results[0]->geometry->location->lng;
+				return $LATITUDE . ',' . $LONGITUDE;
+			} else {
+				Mage::helper('dpd')->log('Google maps geo-encoding failed' , Zend_Log::INFO);
+				return false;
+			} 
+		}
     }
 
     /**
