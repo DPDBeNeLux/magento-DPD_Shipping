@@ -81,21 +81,40 @@ class DPD_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return string
      */
-    public function getGoogleMapsCenter()
-    {
-        $address = Mage::getModel('checkout/cart')->getQuote()->getShippingAddress();
-        $addressToInsert = $address->getStreet(1) . " ";
-        if ($address->getStreet(2)) {
-            $addressToInsert .= $address->getStreet(2) . " ";
-        }
-        $addressToInsert .= $address->getPostcode() . " " . $address->getCity() . " " . $address->getCountry();
-        $url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($addressToInsert) . '&sensor=false';
-        $source = file_get_contents($url);
-        $obj = json_decode($source);
-        $LATITUDE = $obj->results[0]->geometry->location->lat;
-        $LONGITUDE = $obj->results[0]->geometry->location->lng;
-        return $LATITUDE . ',' . $LONGITUDE;
-    }
+	public function getGoogleMapsCenter()
+	{
+		$address = Mage::getModel('checkout/cart')->getQuote()->getShippingAddress();
+		$addressToInsert = $address->getPostcode() . ", " . $address->getCountry();
+
+		/* Leave this in case another spacial checkout does require one of these fields
+		$addressToInsert = $address->getStreet(1) . " ";
+		if ($address->getStreet(2)) {
+			$addressToInsert .= $address->getStreet(2) . " ";
+		}
+		$addressToInsert .= $address->getPostcode() . " " . $address->getCity() . " " . $address->getCountry();
+		*/
+
+		$gmapsKey = Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_api');
+
+		try {
+			$ch = curl_init();
+
+			curl_setopt($ch, CURLOPT_URL, 'https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($addressToInsert) . '&sensor=false&key=' . $gmapsKey);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+			$res = curl_exec($ch);
+
+			$obj = json_decode($res);
+			$LATITUDE = $obj->results[0]->geometry->location->lat;
+			$LONGITUDE = $obj->results[0]->geometry->location->lng;
+
+			return $LATITUDE . ',' . $LONGITUDE;
+		} catch(\Exception $exception) {
+
+			return $this->log($exception->getMessage(), 3);
+
+		}
+	}
 
     /**
      * Logs bugs/info.
