@@ -40,14 +40,7 @@ class DPD_Shipping_Model_Adminhtml_Dpdgrid extends Mage_Core_Model_Abstract
                             $localeCode = explode('_', $locale);
                             $labelNameCode = explode('-', $labelName);
                             $shipment->setDpdLabelPath($labelName . ".pdf");
-                            if(substr($labelNameCode[1], 0, 3) == "MPS" || substr($labelNameCode[1], 0, 3) == "B2C"){
-	                        	
-		                        $shipment->setDpdTrackingUrl('<a target="_blank" href="' . "https://tracking.dpd.de/status/".$locale."/shipment/" . $labelNameCode[1]. '">' . Mage::helper('dpd')->__('Track this shipment') . '</a>');
-
-	                        }else{
-
-		                        $shipment->setDpdTrackingUrl('<a target="_blank" href="' . "https://tracking.dpd.de/status/".$locale."/parcel/" . $labelNameCode[1]. '">' . Mage::helper('dpd')->__('Track this shipment') . '</a>');
-	                        }
+                            $shipment->setDpdTrackingUrl('<a target="_blank" href="' . "http://tracking.dpd.de/cgi-bin/delistrack?typ=32&lang=" . $localeCode[0] . "&pknr=" . $labelNameCode[1] . "&var=" . Mage::getStoreConfig('shipping/dpd_classic/userid') . '">' . Mage::helper('dpd')->__('Track this shipment') . '</a>');
                             $tracker->setData('number', $labelName);
                             $transactionSave = Mage::getModel('core/resource_transaction')
                                 ->addObject($shipment)
@@ -83,15 +76,7 @@ class DPD_Shipping_Model_Adminhtml_Dpdgrid extends Mage_Core_Model_Abstract
                 $localeCode = explode('_', $locale);
                 $labelNameCode = explode('-', $labelName);
                 $shipment->setDpdLabelPath($labelName . ".pdf");
-                
-                if(substr($labelNameCode[1], 0, 3) == "MPS" || substr($labelNameCode[1], 0, 3) == "B2C"){
-	                        	
-		            $shipment->setDpdTrackingUrl('<a target="_blank" href="' . "https://tracking.dpd.de/status/".$locale."/shipment/" . $labelNameCode[1]. '">' . Mage::helper('dpd')->__('Track this shipment') . '</a>');
-
-	            }else{
-
-		            $shipment->setDpdTrackingUrl('<a target="_blank" href="' . "https://tracking.dpd.de/status/".$locale."/parcel/" . $labelNameCode[1]. '">' . Mage::helper('dpd')->__('Track this shipment') . '</a>');
-	            }
+                $shipment->setDpdTrackingUrl('<a target="_blank" href="' . "http://tracking.dpd.de/cgi-bin/delistrack?typ=32&lang=" . $localeCode[0] . "&pknr=" . $labelNameCode[1] . "&var=" . Mage::getStoreConfig('shipping/dpd_classic/userid') . '">' . Mage::helper('dpd')->__('Track this shipment') . '</a>');
                 $order->setIsInProcess(true);
                 $order->addStatusHistoryComment(Mage::helper('dpd')->__('Shipped with DPD generateLabelAndComplete'), true);
                 $order->setDpdLabelExists(1);

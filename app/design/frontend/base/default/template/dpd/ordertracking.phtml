@@ -18,15 +18,9 @@ if(!$orderId){
 }
 $order = Mage::getModel('sales/order')->load($orderId);
 $arrayToReplace = array("$1", "$2", "$3");
-$locale = Mage::app()->getLocale()->getLocaleCode();
-$replaceArray = array($order->getIncrementId(),$locale,Mage::getStoreConfig('shipping/dpdclassic/userid'));
-$parcelID = $order->getIncrementId();
-
-if(substr($parcelID, 0, 3) == "B2C" || substr($parcelID, 0, 3)){
-	$url = "https://tracking.dpd.de/status/$2/shipment/$1";
-}else {
-	$url = "https://tracking.dpd.de/status/$2/parcel/$1";
-}
+$localeExploded = explode('_',Mage::app()->getLocale()->getLocaleCode());
+$replaceArray = array($order->getIncrementId(),$localeExploded[0],Mage::getStoreConfig('shipping/dpdclassic/userid'));
+$url = "http://tracking.dpd.de/cgi-bin/delistrack?typ=5&lang=$2&pknr=$1&var=$3";
 $parsedUrl = str_replace($arrayToReplace,$replaceArray,$url);
 ?>
 <?php if(strpos(serialize($this->getTrackingInfo()), 'DPD' ) !== FALSE): ?>
