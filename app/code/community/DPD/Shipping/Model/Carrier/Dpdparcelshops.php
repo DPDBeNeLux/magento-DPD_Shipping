@@ -158,21 +158,30 @@ class DPD_Shipping_Model_Carrier_Dpdparcelshops extends Mage_Shipping_Model_Carr
      */
     public function getTracking($tracking_number)
     {
-        $tracking_numberExploded = explode('-', $tracking_number);
-        $tracking_result = Mage::getModel('shipping/tracking_result');
-        $tracking_status = Mage::getModel('shipping/tracking_result_status');
-        $localeExploded = explode('_', Mage::app()->getLocale()->getLocaleCode());
-        $tracking_status->setCarrier($this->_code);
-        $tracking_status->setCarrierTitle($this->getConfigData('title'));
-        $tracking_status->setTracking($tracking_number);
-        $tracking_status->addData(
-            array(
-                'status' => '<a target="_blank" href="' . "http://tracking.dpd.de/cgi-bin/delistrack?typ=32&lang=" . $localeExploded[0] . "&pknr=" . $tracking_numberExploded[1] . "&var=" . Mage::getStoreConfig('shipping/dpdclassic/userid') . '">' . Mage::helper('dpd')->__('Track this shipment') . '</a>'
-            )
-        );
-        $tracking_result->append($tracking_status);
+       $tracking_numberExploded = explode('-', $tracking_number);
+	    $tracking_result = Mage::getModel('shipping/tracking_result');
+	    $tracking_status = Mage::getModel('shipping/tracking_result_status');
+	    $locale = Mage::app()->getLocale()->getLocaleCode();
+	    $tracking_status->setCarrier($this->_code);
+	    $tracking_status->setCarrierTitle($this->getConfigData('title'));
+	    $tracking_status->setTracking($tracking_number);
+	    if(substr($tracking_numberExploded[1], 0, 3) == "MPS" || substr($tracking_numberExploded[1], 0, 3) == "B2C"){
+		    $tracking_status->addData(
+			    array(
+				    'status' => '<a target="_blank" href="' . "https://tracking.dpd.de/status/".$locale."/shipment/" . $tracking_numberExploded[1]. '">' . Mage::helper('dpd')->__('Track this shipment') . '</a>'
+			    )
+		    );
+	    }else{
+		    $tracking_status->addData(
+			    array(
+				    'status' => '<a target="_blank" href="' . "https://tracking.dpd.de/status/".$locale."/parcel/" . $tracking_numberExploded[1]. '">' . Mage::helper('dpd')->__('Track this shipment') . '</a>'
+			    )
+		    );
+	    }
 
-        return $tracking_result;
+	    $tracking_result->append($tracking_status);
+
+	    return $tracking_result;
     }
 
     /**
