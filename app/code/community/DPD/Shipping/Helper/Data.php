@@ -88,8 +88,8 @@ class DPD_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
         if ($address->getStreet(2)) {
             $addressToInsert .= $address->getStreet(2) . " ";
         }
-        $addressToInsert .= $address->getPostcode() . " " . $address->getCity() . " " . $address->getCountry();
-        $url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($addressToInsert) . '&sensor=false';
+        $addressToInsert .= "postal_code:" .$address->getPostcode() . "|" . "country:" . $address->getCountry();
+        $url = 'http://maps.googleapis.com/maps/api/geocode/json?&components=' . urlencode($addressToInsert);
         $source = file_get_contents($url);
         $obj = json_decode($source);
         $LATITUDE = $obj->results[0]->geometry->location->lat;
