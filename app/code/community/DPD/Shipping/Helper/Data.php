@@ -84,11 +84,11 @@ class DPD_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
     public function getGoogleMapsCenter()
     {
         $address = Mage::getModel('checkout/cart')->getQuote()->getShippingAddress();
-        $addressToInsert = $address->getStreet(1) . " ";
-        if ($address->getStreet(2)) {
-            $addressToInsert .= $address->getStreet(2) . " ";
-        }
-        $addressToInsert .= "postal_code:" .$address->getPostcode() . "|" . "country:" . $address->getCountry();
+        //$addressToInsert = $address->getStreet(1) . " ";
+        //if ($address->getStreet(2)) {
+            //$addressToInsert .= $address->getStreet(2) . " ";
+        //}
+        $addressToInsert = "postal_code:" .$address->getPostcode() . "|" . "country:" . $address->getCountry();
         $url = 'http://maps.googleapis.com/maps/api/geocode/json?&components=' . urlencode($addressToInsert);
         $source = file_get_contents($url);
         $obj = json_decode($source);
