@@ -138,7 +138,8 @@ class DPD_Shipping_Model_Adminhtml_Dpdgrid extends Mage_Core_Model_Abstract
                 'street' => $billingAddress->getStreet(1) . " " . $billingAddress->getStreet(2),
                 'country' => $billingAddress->getCountry(),
                 'zipCode' => $billingAddress->getPostcode(),
-                'city' => $billingAddress->getCity()
+                'city' => $billingAddress->getCity(),
+                'phone' => $shippingAddress->getTelephone()
             );
         }
         else{
@@ -148,7 +149,8 @@ class DPD_Shipping_Model_Adminhtml_Dpdgrid extends Mage_Core_Model_Abstract
                 'street' => $shippingAddress->getStreet(1) . " " . $shippingAddress->getStreet(2),
                 'country' => $shippingAddress->getCountry(),
                 'zipCode' => $shippingAddress->getPostcode(),
-                'city' => $shippingAddress->getCity()
+                'city' => $shippingAddress->getCity(),
+	            'phone' => $shippingAddress->getTelephone()
             );
         }
         $labelWebserviceCallback = Mage::getSingleton('dpd/webservice')->getShippingLabel($recipient, $order, $shipment, $parcelshop);
