@@ -92,6 +92,19 @@ class DPD_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
         $url = 'https://maps.googleapis.com/maps/api/geocode/json?key=' . Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_api') . '&components=' . urlencode($addressToInsert);
         $source = file_get_contents($url);
         $obj = json_decode($source);
+
+        if (!property_exists($obj, 'results') || (property_exists($obj, 'results') && !$obj->results)) {
+            Mage::log(
+                sprintf(
+                    'DPD Shipping - Determining Google maps center failed. %s',
+                    json_encode(
+                        array('Requested URL' => $url, 'Response' => $source)
+                    )
+                )
+            );
+            return '0,0';
+        }
+
         $LATITUDE = $obj->results[0]->geometry->location->lat;
         $LONGITUDE = $obj->results[0]->geometry->location->lng;
         return $LATITUDE . ',' . $LONGITUDE;
