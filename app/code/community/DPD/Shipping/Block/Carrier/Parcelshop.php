@@ -247,7 +247,7 @@ class DPD_Shipping_Block_Carrier_Parcelshop extends Mage_Core_Block_Template
             <table>
             <tbody>';
             foreach ($shop->openingHours as $openinghours) {
-                $html .= '<tr><td style="padding-right:10px;"><strong>' . $openinghours->weekday . '</strong></td><td style="padding-right:10px;">' . $openinghours->openMorning . ' - ' . $openinghours->closeMorning . '
+                $html .= '<tr><td style="padding-right:10px;"><strong>' . Mage::helper('dpd')->__($openinghours->weekday) . '</strong></td><td style="padding-right:10px;">' . $openinghours->openMorning . ' - ' . $openinghours->closeMorning . '
             </td><td>' . $openinghours->openAfternoon . ' - ' . $openinghours->closeAfternoon . '</td></tr>';
             }
             $html .= '</tbody>
@@ -261,7 +261,7 @@ class DPD_Shipping_Block_Carrier_Parcelshop extends Mage_Core_Block_Template
             <tbody>';
             foreach (Mage::helper('core')->jsonDecode($shop->getParcelshopOpeninghours()) as $openinghours) {
 
-                $html .= '<tr><td style="padding-right:10px;"><strong>' . $openinghours['weekday'] . '</strong></td><td style="padding-right:10px;">' . $openinghours['openMorning'] . ' - ' . $openinghours['closeMorning'] . '
+                $html .= '<tr><td style="padding-right:10px;"><strong>' . Mage::helper('dpd')->__($openinghours['weekday']) . '</strong></td><td style="padding-right:10px;">' . $openinghours['openMorning'] . ' - ' . $openinghours['closeMorning'] . '
             </td><td>' . $openinghours['openAfternoon'] . ' - ' . $openinghours['closeAfternoon'] . '</td></tr>';
             }
             $html .= '</tbody>

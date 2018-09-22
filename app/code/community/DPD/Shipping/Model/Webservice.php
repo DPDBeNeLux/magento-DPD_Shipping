@@ -31,17 +31,17 @@ class DPD_Shipping_Model_Webservice extends Mage_Core_Model_Abstract
     /**
      * Path to login webservice wsdl.
      */
-    CONST WEBSERVICE_LOGIN = 'LoginService.svc?singleWsdl';
+    CONST WEBSERVICE_LOGIN = 'LoginService/V2_0/?wsdl';
 
     /**
      * Path to ParcelShopFinder webservice wsdl.
      */
-    CONST WEBSERVICE_PARCELSHOP = 'ParcelShopFinderService.svc?singleWsdl';
+    CONST WEBSERVICE_PARCELSHOP = 'ParcelShopFinderService/V3_0/?wsdl';
 
     /**
      * Path to Shipment webservice wsdl.
      */
-    CONST WEBSERVICE_SHIPMENT = 'ShipmentService.svc?singleWsdl';
+    CONST WEBSERVICE_SHIPMENT = 'ShipmentService/V2_0/?wsdl';
 
     /**
      * Product type for shipmentservice, should be always 'CL' as instructed by DPD.
