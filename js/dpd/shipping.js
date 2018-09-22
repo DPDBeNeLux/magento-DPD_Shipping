@@ -65,7 +65,7 @@ DPD.Shipping = Class.create({
         if (this.config.gmapsDisplay && !dialog) {
             showDPDWindow(this.config.windowParcelUrl + "?windowed=true",
                 'iframe',
-                (parseInt(this.config.gmapsWidth.replace("px", "")) + 40), (parseInt(this.config.gmapsHeight.replace("px", "")) + 40),
+                parseInt(this.config.gmapsWidth.replace("px", "")), parseInt(this.config.gmapsHeight.replace("px", "")),
                 this.config
             );
         }
@@ -194,7 +194,7 @@ DPD.Shipping = Class.create({
             this.container.down('#s_method_dpdparcelshops_dpdparcelshops').checked = true;
             showDPDWindow(this.config.windowParcelUrl + "?windowed=true",
                 'iframe',
-                (parseInt(this.config.gmapsWidth.replace("px", "")) + 40), (parseInt(this.config.gmapsHeight.replace("px", "")) + 40),
+                parseInt(this.config.gmapsWidth.replace("px", "")), parseInt(this.config.gmapsHeight.replace("px", "")),
                 this.config
             );
         }
