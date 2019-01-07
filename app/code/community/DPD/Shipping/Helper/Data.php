@@ -83,13 +83,14 @@ class DPD_Shipping_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getGoogleMapsCenter()
     {
+        $gmapsKey = Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_api');
         $address = Mage::getModel('checkout/cart')->getQuote()->getShippingAddress();
         //$addressToInsert = $address->getStreet(1) . " ";
         //if ($address->getStreet(2)) {
             //$addressToInsert .= $address->getStreet(2) . " ";
         //}
-        $addressToInsert = "postal_code:" .$address->getPostcode() . "|" . "country:" . $address->getCountry();
-        $url = 'http://maps.googleapis.com/maps/api/geocode/json?&components=' . urlencode($addressToInsert);
+        $addressToInsert = "postal_code:" .$address->getPostcode() . "|country:" . $address->getCountry() . "|locality:" . $address->getCity() . "|street_address:" . $address->getStreet(1) ;
+        $url = 'https://maps.googleapis.com/maps/api/geocode/json?components=' . urlencode($addressToInsert) . '&key=' . $gmapsKey;
         $source = file_get_contents($url);
         $obj = json_decode($source);
         $LATITUDE = $obj->results[0]->geometry->location->lat;
