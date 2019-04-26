@@ -15,23 +15,15 @@
 $shippingaddress = Mage::getSingleton('checkout/session')->getQuote()->getShippingAddress();
 if(($shippingaddress->getPostcode() != "" && $shippingaddress->getPostcode() != "-") &&
 ($shippingaddress->getCountryId()!= "" && $shippingaddress->getCountryId()!= "-")):
-if (Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_enable_list')) {
-    $shopswidth = 230;
-} else {
-    $shopswidth = 0;
-}
-$totalmapwidth = Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_width');
 $height = Mage::getStoreConfig('carriers/dpdparcelshops/google_maps_height');
 $html = $this->getShopsHtml();
 ?>
 <style>
     .parcelshopwrapper .shops {
-        width: <?php echo $shopswidth ?>px;
         height: <?php echo $height ?>px;
     }
 
     #map_canvas {
-        width: <?php echo $totalmapwidth - $shopswidth - 20 ?>px;
         height: <?php echo $height ?>px;
     }
 

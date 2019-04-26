@@ -3,7 +3,7 @@
 .dpdloaderwrapper .message{display:block; padding-top:8px;}
 .parcelshopwrapper .dpdinfo{position:relative;}
 .parcelshopwrapper .gmaps {float: left;}
-.parcelshopwrapper #map_canvas{line-height:normal;}
+.parcelshopwrapper #map_canvas{display:none;line-height:normal;}
 .parcelshopwrapper .gmaps .dotted-line{margin-top: 7px;padding-top: 10px;border-top: 1px dotted #666;}
 .parcelshopwrapper .shops {float: left; clear:right;font-size:11px;overflow-y:scroll;}
 .parcelshopwrapper .shops .specialparcelshopImage{float:left;padding-top:10px; padding-right:5px;}
@@ -30,3 +30,12 @@
 .onestepcheckout-shipping-method-block .parcelshopwrapper ul li{padding:0px;}
 .onestepcheckout-shipping-method-block .parcelshopwrapper ul {padding-top:5px; padding-bottom:5px;}
 .onestepcheckout-shipping-method-block .parcelshopwrapper ul li.dpdinfo{font-weight:bold;}
+
+@media (min-width: 980px) {
+    .parcelshopwrapper #map_canvas {display:block;width:calc(100% - 230px);}
+}
+
+@media (max-width: 979px) {
+    .parcelshopwrapper .shops {width:100%;}
+}
+
