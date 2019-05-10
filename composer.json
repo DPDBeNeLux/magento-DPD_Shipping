@@ -1,0 +1,13 @@
+{
+  "name": "dpdbenelux/dpdshipping",
+  "type": "magento-module",
+  "homepage": "http://www.magentocommerce.com/magento-connect/dpd-shipping.html",
+  "authors": [
+    {
+      "name": "DPD Benelux"
+    }
+  ],
+  "require": {
+    "magento-hackathon/magento-composer-installer": "*"
+  }
+}
